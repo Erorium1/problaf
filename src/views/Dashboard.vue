@@ -19,20 +19,22 @@
 
     <div class="container py-4">
       <!-- AI Assistant Card -->
-      <div class="ai-assistant-card mb-4">
-        <div class="card-content text-center">
-          <div class="ai-icon">
-            <svg width="120" height="120" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="58" fill="none" stroke="white" stroke-width="2"/>
-              <circle cx="45" cy="50" r="5" fill="white"/> <!-- Left eye -->
-              <circle cx="75" cy="50" r="5" fill="white"/> <!-- Right eye -->
-              <path d="M45,70 Q60,80 75,70" stroke="white" stroke-width="3" fill="none"/> <!-- Smile -->
-            </svg>
+      <router-link to="/ai-assistant" class="text-decoration-none">
+        <div class="ai-assistant-card mb-4">
+          <div class="card-content text-center">
+            <div class="ai-icon">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="58" fill="none" stroke="white" stroke-width="2"/>
+                <circle cx="45" cy="50" r="5" fill="white"/> <!-- Left eye -->
+                <circle cx="75" cy="50" r="5" fill="white"/> <!-- Right eye -->
+                <path d="M45,70 Q60,80 75,70" stroke="white" stroke-width="3" fill="none"/> <!-- Smile -->
+              </svg>
+            </div>
+            <h3 class="text-white mb-2">ИИ-помощник</h3>
+            <p class="text-white-50 mb-0">Нажмите, чтобы задать вопрос ИИ!</p>
           </div>
-          <h3 class="text-white mb-2">ИИ-помощник</h3>
-          <p class="text-white-50 mb-0">Нажмите, чтобы задать вопрос ИИ!</p>
         </div>
-      </div>
+      </router-link>
 
       <!-- Feature Cards Grid -->
       <div class="row g-4">

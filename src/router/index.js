@@ -5,6 +5,7 @@ import Auth from '@/views/Auth.vue'
 import Dashboard from '@/views/Dashboard.vue'
 import Universities from '@/views/Universities.vue'
 import Professions from '@/views/Professions.vue'
+import AIAssistant from '@/views/AIAssistant.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,12 @@ const router = createRouter({
       path: '/professions',
       name: 'professions',
       component: Professions,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/ai-assistant',
+      name: 'ai-assistant',
+      component: AIAssistant,
       meta: { requiresAuth: true }
     }
   ]
