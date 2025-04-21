@@ -1,12 +1,12 @@
 <template>
-  <div class="professions">
+  <div class="directions">
     <nav class="navbar navbar-light">
       <div class="container-fluid">
         <div class="d-flex align-items-center">
           <button @click="$router.go(-1)" class="btn btn-link p-0 me-3">
             <i class="fas fa-arrow-left"></i>
           </button>
-          <h1 class="navbar-brand mb-0">Профессии</h1>
+          <h1 class="navbar-brand mb-0">Направления</h1>
         </div>
         <div class="dropdown">
           <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
@@ -27,14 +27,14 @@
         </router-link>
       </div>
 
-      <div class="profession-list">
+      <div class="direction-list">
         <button 
-          v-for="profession in professions" 
-          :key="profession.id"
-          class="profession-button"
-          @click="selectProfession(profession.id)"
+          v-for="(direction, id) in directions" 
+          :key="id"
+          class="direction-button"
+          @click="selectDirection(id)"
         >
-          {{ profession.name }}
+          {{ direction.title }}
         </button>
       </div>
     </div>
@@ -43,38 +43,34 @@
 
 <script>
 export default {
-  name: 'Professions',
+  name: 'Directions',
   data() {
     return {
-      professions: [
-        { id: 'law', name: 'Юриспруденция и право' },
-        { id: 'transport', name: 'Транспорт и логистика' },
-        { id: 'hospitality', name: 'Общественное питание и гостиничный бизнес' },
-        { id: 'security', name: 'Безопасность и охрана' },
-        { id: 'science', name: 'Наука и исследования' },
-        { id: 'culture', name: 'Культура и искусство' },
-        { id: 'sports', name: 'Спорт и фитнес' },
-        { id: 'it', name: 'Информационные технологии (IT)' },
-        { id: 'medicine', name: 'Здравоохранение и медицина' },
-        { id: 'education', name: 'Образование и наука' },
-        { id: 'finance', name: 'Финансы и бухгалтерия' },
-        { id: 'engineering', name: 'Техническая и инженерная сфера' },
-        { id: 'business', name: 'Бизнес и управление' },
-        { id: 'creative', name: 'Креативные индустрии и искусство' },
-        { id: 'agriculture', name: 'Сельское хозяйство и экология' }
-      ]
+      directions: {
+        'physics-math': { title: 'Физико-математическое' },
+        'chemistry-biology': { title: 'Химико-биологическое' },
+        'natural-sciences': { title: 'Естественные науки' },
+        'engineering': { title: 'Инженерное' },
+        'it': { title: 'Информационные технологии (IT)' },
+        'socio-economic': { title: 'Социально-экономическое' },
+        'humanitarian': { title: 'Гуманитарное' },
+        'law': { title: 'Право и юриспруденция' },
+        'technical': { title: 'Техническое обслуживание и технологии производства' },
+        'military': { title: 'Военное и оборонное' },
+        'ecology': { title: 'Экология и охрана природы' }
+      }
     }
   },
   methods: {
-    selectProfession(id) {
-      this.$router.push(`/profession/${id}`)
+    selectDirection(id) {
+      this.$router.push(`/direction/${id}`)
     }
   }
 }
 </script>
 
 <style scoped>
-.professions {
+.directions {
   min-height: 100vh;
   background-color: #ffffff;
 }
@@ -107,13 +103,13 @@ export default {
   transform: translateY(-2px);
 }
 
-.profession-list {
+.direction-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.profession-button {
+.direction-button {
   background-color: #98a3b3;
   border: none;
   border-radius: 15px;
@@ -132,7 +128,7 @@ export default {
   justify-content: center;
 }
 
-.profession-button:hover {
+.direction-button:hover {
   background-color: #7a8699;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -158,7 +154,7 @@ export default {
     padding-right: 1.5rem;
   }
   
-  .profession-button {
+  .direction-button {
     font-size: 0.9rem;
     padding: 0.75rem;
   }

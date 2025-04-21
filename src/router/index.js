@@ -6,6 +6,8 @@ import Dashboard from '@/views/Dashboard.vue'
 import Universities from '@/views/Universities.vue'
 import Professions from '@/views/Professions.vue'
 import AIAssistant from '@/views/AIAssistant.vue'
+import Directions from '@/views/Directions.vue'
+import DirectionDetail from '@/views/DirectionDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +49,18 @@ const router = createRouter({
       path: '/ai-assistant',
       name: 'ai-assistant',
       component: AIAssistant,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/directions',
+      name: 'directions',
+      component: Directions,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/direction/:id',
+      name: 'direction-detail',
+      component: DirectionDetail,
       meta: { requiresAuth: true }
     }
   ]

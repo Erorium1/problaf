@@ -61,12 +61,14 @@
         </div>
 
         <div class="col-6">
-          <div class="feature-card">
-            <div class="card-body text-center">
-              <h4>Направления</h4>
-              <p class="small mb-0">Определи, какие сферы тебе подходят</p>
+          <router-link to="/directions" class="text-decoration-none">
+            <div class="feature-card">
+              <div class="card-body text-center">
+                <h4>Направления</h4>
+                <p class="small mb-0">Определи, какие сферы тебе подходят</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
 
         <div class="col-6">
