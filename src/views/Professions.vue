@@ -67,7 +67,11 @@ export default {
   },
   methods: {
     selectProfession(id) {
-      this.$router.push(`/profession/${id}`)
+      if (id === 'law') {
+        this.$router.push('/law-professions')
+      } else {
+        this.$router.push(`/profession/${id}`)
+      }
     }
   }
 }

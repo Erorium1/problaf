@@ -8,6 +8,7 @@ import Professions from '@/views/Professions.vue'
 import AIAssistant from '@/views/AIAssistant.vue'
 import Directions from '@/views/Directions.vue'
 import DirectionDetail from '@/views/DirectionDetail.vue'
+import LawProfessionDetail from '../views/LawProfessionDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       name: 'direction-detail',
       component: DirectionDetail,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/law-professions',
+      name: 'LawProfessions',
+      component: LawProfessionDetail
     }
   ]
 })
