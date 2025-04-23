@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1",
+    "name": "Admin",
+    "email": "admin@example.com",
+    "password": "$2a$10$X7z3b9J8K6L4M2N1P0Q9R8S7T6U5V4W3X2Y1Z0A9B8C7D6E5F4G3H2I1J",
+    "createdAt": "2024-03-20T10:00:00.000Z",
+    "lastLogin": null
+  },
+  {
+    "id": "1745384723331",
+    "email": "john@example.com",
+    "password": "$2b$10$5qShtWO.RmnJjdAHFpn2iewwoLnrfDyCQd9z9wk2hYX4Do3VCZiHG",
+    "name": "John Doe",
+    "createdAt": "2025-04-23T05:05:23.331Z",
+    "lastLogin": "2025-04-23T05:17:14.114Z"
+  },
+  {
+    "id": "1745384748015",
+    "email": "yedil@example.com",
+    "password": "$2b$10$NoX9Pnk4kT4Fi5hMXKRbren3LC8iFLVuBgx/bsEZ7n8RNgaEh/RcC",
+    "name": "Yedil",
+    "createdAt": "2025-04-23T05:05:48.015Z"
+  },
+  {
+    "id": "1745397780651",
+    "email": "test@dfsadsa.kz",
+    "password": "$2b$10$JWE9TpLsFlmSQyc6unACyu1y1QjyYyIMKsdlq3jIQS6mK5DyBL0KW",
+    "name": "trstqe",
+    "createdAt": "2025-04-23T08:43:00.651Z",
+    "lastLogin": null
+  },
+  {
+    "id": "1745397944376",
+    "email": "test@test.kz",
+    "password": "$2b$10$zGhjtJn7DLyiLKTJL.7CoeTZAIDXyr5r/2dUAqQcA/U11ZLdMUmUa",
+    "name": "Тестовый ющер",
+    "createdAt": "2025-04-23T08:45:44.376Z",
+    "lastLogin": "2025-04-23T09:25:25.489Z"
+  }
+]
