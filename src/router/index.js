@@ -9,6 +9,7 @@ import AIAssistant from '@/views/AIAssistant.vue'
 import Directions from '@/views/Directions.vue'
 import DirectionDetail from '@/views/DirectionDetail.vue'
 import ProfessionDetail from '@/views/ProfessionDetail.vue'
+import LawProfessionDetail from '../views/LawProfessionDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,13 +27,19 @@ const router = createRouter({
     {
       path: '/auth',
       name: 'auth',
-      component: Auth
+      component: Auth,
+      meta: {
+        transition: 'slide-fade'
+      }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        transition: 'slide-fade'
+      }
     },
     {
       path: '/universities',
@@ -69,6 +76,15 @@ const router = createRouter({
       name: 'profession-detail',
       component: ProfessionDetail,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/law-professions',
+      name: 'LawProfessions',
+      component: LawProfessionDetail,
+      meta: {
+        requiresAuth: true,
+        transition: 'slide-fade'
+      }
     }
   ]
 })

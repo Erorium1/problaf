@@ -21,7 +21,7 @@
             </div>
           </div>
 
-          <button @click="$router.push('/auth')" class="btn btn-lg btn-primary animate__animated animate__pulse animate__infinite">
+          <button @click="$router.push('/auth')" class="start-button">
             Начни свой путь к мечте прямо сейчас!
           </button>
         </div>
@@ -55,14 +55,52 @@ export default {
 .features p {
   margin-bottom: 1rem;
 }
-.btn-primary {
-  background-color: #007bff;
+
+.start-button {
+  background-color: #98a3b3;
+  color: white;
   border: none;
-  padding: 15px 30px;
-  transition: all 0.3s ease;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+              0 1px 3px rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: gentlePulse 2s ease-in-out infinite;
 }
-.btn-primary:hover {
+
+.start-button:hover {
+  background-color: #7a8699;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15),
+              0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: none;
+}
+
+.start-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes gentlePulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.08);
+  }
 }
 </style> 

@@ -2,7 +2,7 @@
   <div class="dashboard">
     <nav class="navbar navbar-light">
       <div class="container-fluid">
-        <button class="navbar-toggler border-0" type="button">
+        <button class="navbar-toggler border-0" type="button" @click="toggleSidebar">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="dropdown">
@@ -11,11 +11,51 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#">Настройки</a></li>
-            <li><a class="dropdown-item" href="#">Выйти</a></li>
+            <li><a class="dropdown-item" @click="handleLogout">Выйти</a></li>
           </ul>
         </div>
       </div>
     </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
+      <div class="sidebar-header">
+        <h5>Меню</h5>
+        <button class="close-btn" @click="toggleSidebar">&times;</button>
+      </div>
+      <div class="sidebar-content">
+        <div class="user-info mb-4">
+          <div class="user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="user-details">
+            <h6>{{ user?.name || 'Пользователь' }}</h6>
+            <p class="text-muted">{{ user?.email || '' }}</p>
+          </div>
+        </div>
+        <div class="sidebar-menu">
+          <router-link to="/dashboard" class="sidebar-item" @click="toggleSidebar">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+          </router-link>
+          <router-link to="/profile" class="sidebar-item" @click="toggleSidebar">
+            <i class="fas fa-user"></i>
+            <span>Профиль</span>
+          </router-link>
+          <router-link to="/settings" class="sidebar-item" @click="toggleSidebar">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+          </router-link>
+          <a href="#" class="sidebar-item" @click="handleLogout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Выйти</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" v-if="isSidebarOpen" @click="toggleSidebar"></div>
 
     <div class="container py-4">
       <!-- AI Assistant Card -->
@@ -85,8 +125,39 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  setup() {
+    const router = useRouter()
+    const authStore = useAuthStore()
+    const isSidebarOpen = ref(false)
+
+    const user = computed(() => authStore.user)
+
+    const toggleSidebar = () => {
+      isSidebarOpen.value = !isSidebarOpen.value
+    }
+
+    const handleLogout = async () => {
+      try {
+        await authStore.logout()
+        router.push('/auth')
+      } catch (error) {
+        console.error('Ошибка при выходе:', error)
+      }
+    }
+
+    return {
+      isSidebarOpen,
+      user,
+      toggleSidebar,
+      handleLogout
+    }
+  }
 }
 </script>
 
@@ -163,10 +234,114 @@ export default {
   padding: 0.5rem 1.5rem;
 }
 
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+.sidebar-open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar-content {
+  padding: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #98a3b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.user-details h6 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.user-details p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-item:hover {
+  background-color: #f5f5f5;
+}
+
+.sidebar-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
 @media (max-width: 576px) {
   .container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+
+  .sidebar {
+    width: 100%;
+    left: -100%;
   }
 }
 </style> 
