@@ -10,6 +10,13 @@ import Directions from '@/views/Directions.vue';
 import DirectionDetail from '@/views/DirectionDetail.vue';
 import ProfessionDetail from '@/views/ProfessionDetail.vue';
 import LawProfessionDetail from '../views/LawProfessionDetail.vue';
+import TestView from '@/views/TestView.vue';
+import TestBlock1 from '@/views/TestBlock1.vue';
+import TestBlock2 from '@/views/TestBlock2.vue';
+import TestBlock3 from '@/views/TestBlock3.vue';
+import TestBlock4 from '@/views/TestBlock4.vue';
+import TestBlock5 from '@/views/TestBlock5.vue';
+import TestResults from '@/views/TestResults.vue';
 import { useAuthStore } from '@/stores/auth'; // Импортируйте ваш authStore
 
 const router = createRouter({
@@ -18,18 +25,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'language',
-      component: LanguageSelect
+      component: LanguageSelect,
+      meta: {
+        requiresGuest: true
+      }
     },
     {
       path: '/welcome',
       name: 'welcome',
-      component: Welcome
+      component: Welcome,
+      meta: {
+        requiresGuest: true
+      }
     },
     {
       path: '/auth',
       name: 'auth',
       component: Auth,
       meta: {
+        requiresGuest: true,
         transition: 'slide-fade'
       }
     },
@@ -86,26 +100,73 @@ const router = createRouter({
         requiresAuth: true,
         transition: 'slide-fade'
       }
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: TestView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/block1',
+      name: 'test-block-1',
+      component: TestBlock1,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/block2',
+      name: 'test-block-2',
+      component: TestBlock2,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/block3',
+      name: 'test-block-3',
+      component: TestBlock3,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/block4',
+      name: 'test-block-4',
+      component: TestBlock4,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/block5',
+      name: 'test-block-5',
+      component: TestBlock5,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/test/results',
+      name: 'test-results',
+      component: TestResults,
+      meta: { requiresAuth: true }
     }
   ]
 });
 
 // Navigation guard
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore(); // Получите экземпляр стора
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Check if user is authenticated using the store's getter
-    if (!authStore.isAuthenticated) {
-      console.log('Navigation guard: requiresAuth is true and user is NOT authenticated (via store), redirecting to /auth');
-      next('/auth');
-    } else {
-      console.log('Navigation guard: requiresAuth is true and user IS authenticated (via store), proceeding');
-      next();
-    }
-  } else {
-    console.log('Navigation guard: route does not require auth, proceeding');
-    next();
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.isAuthenticated;
+
+  // Если пользователь аутентифицирован и пытается зайти на гостевые страницы
+  if (isAuthenticated && to.meta.requiresGuest) {
+    console.log('User is authenticated, redirecting to dashboard');
+    next('/dashboard');
+    return;
   }
+
+  // Если пользователь не аутентифицирован и пытается зайти на защищенные страницы
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    console.log('User is not authenticated, redirecting to auth');
+    next('/auth');
+    return;
+  }
+
+  // В остальных случаях разрешаем переход
+  next();
 });
 
 export default router;

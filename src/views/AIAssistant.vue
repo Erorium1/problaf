@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="ai-assistant">
     <nav class="navbar navbar-light">
@@ -30,7 +29,7 @@
     <div class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
       <div class="sidebar-header">
         <h3>История чатов</h3>
-        <button class=" bg-black btn btn-close-sidebar p-0" @click="closeSidebar" title="Закрыть">
+        <button class="bg-black btn btn-close-sidebar p-0" @click="closeSidebar" title="Закрыть">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -83,7 +82,7 @@
         </div>
       </div>
 
-      <div class="chat-messages" v-else>
+      <div class="chat-messages" v-if="showChat">
         <div v-for="(message, index) in currentChatMessages" :key="index"
              :class="['message', message.type === 'user' ? 'user-message' : 'ai-message']">
           <div class="message-content">
@@ -92,7 +91,7 @@
         </div>
       </div>
 
-      <div class="input-container">
+      <div class="input-container" v-if="showChat">
         <div class="input-group">
           <input
             type="text"
@@ -112,7 +111,7 @@
         </div>
       </div>
 
-      <div class="voice-controls">
+      <div class="voice-controls" v-if="showChat">
         <button class="voice-button">
           <i class="fas fa-search"></i>
         </button>
@@ -128,10 +127,12 @@
 import { ref, onMounted, computed } from 'vue'
 import { gptService } from '@/services/api'
 import { authService } from '@/services/api'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'AIAssistant',
   setup() {
+    const router = useRouter()
     const userInput = ref('')
     const isLoading = ref(false)
     const messages = ref([])
@@ -143,6 +144,10 @@ export default {
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value
+    }
+
+    const closeSidebar = () => {
+      isSidebarOpen.value = false
     }
 
     const formatDate = (dateString) => {
@@ -182,7 +187,11 @@ export default {
     })
 
     const handleAction = (action) => {
-      console.log('Selected action:', action)
+      if (action === 'test') {
+        router.push('/test')
+      } else {
+        console.log('Selected action:', action)
+      }
     }
 
     const sendMessage = async () => {
@@ -232,6 +241,7 @@ export default {
       selectedChatId,
       currentChatMessages,
       toggleSidebar,
+      closeSidebar,
       formatDate,
       selectChat,
       handleAction,
@@ -245,6 +255,8 @@ export default {
 .ai-assistant {
   min-height: 100vh;
   background-color: #98a3b3;
+  position: relative;
+  overflow: hidden;
 }
 
 .navbar {
@@ -596,5 +608,4 @@ export default {
   background-color: white;
   color: #98a3b3;
 }
-
 </style>
