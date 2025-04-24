@@ -18,7 +18,7 @@ api.interceptors.request.use((config) => {
 
 export const authService = {
     async login(email, password) {
-        const response = await api.post('/auth/login', { email, password });
+        const response = await api.post('/api/auth/login', { email, password });
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
         }
@@ -26,7 +26,7 @@ export const authService = {
     },
 
     async register(name, email, password) {
-        const response = await api.post('/auth/register', { name, email, password });
+        const response = await api.post('api/auth/register', { name, email, password });
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
         }
@@ -45,7 +45,7 @@ export const authService = {
 
 export const gptService = {
     async sendMessage(message) {
-        const response = await api.post('/gpt/chat', { message });
+        const response = await api.post('api/gpt/chat', { message });
         return response.data;
     },
     getUserChats: async () => {

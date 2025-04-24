@@ -338,10 +338,5 @@ export default {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
-
-  .sidebar {
-    width: 100%;
-    left: -100%;
-  }
 }
 </style> 
