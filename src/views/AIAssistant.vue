@@ -512,7 +512,7 @@ export default {
   top: 0;
   left: -300px;
   width: 300px;
-  height: 100vh;
+  height: 100%;
   background-color: white;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   transition: left 0.3s ease;

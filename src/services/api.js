@@ -49,7 +49,7 @@ export const gptService = {
         return response.data;
     },
     getUserChats: async () => {
-        const response = await api.get('/gpt/chats');
+        const response = await api.get('api/gpt/chats');
         return response.data;
     },
     getChatMessages: async (chatId) => {
