@@ -1,15 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import LanguageSelect from '@/views/LanguageSelect.vue'
-import Welcome from '@/views/Welcome.vue'
-import Auth from '@/views/Auth.vue'
-import Dashboard from '@/views/Dashboard.vue'
-import Universities from '@/views/Universities.vue'
-import Professions from '@/views/Professions.vue'
-import AIAssistant from '@/views/AIAssistant.vue'
-import Directions from '@/views/Directions.vue'
-import DirectionDetail from '@/views/DirectionDetail.vue'
-import ProfessionDetail from '@/views/ProfessionDetail.vue'
-import LawProfessionDetail from '../views/LawProfessionDetail.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import LanguageSelect from '@/views/LanguageSelect.vue';
+import Welcome from '@/views/Welcome.vue';
+import Auth from '@/views/Auth.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import Universities from '@/views/Universities.vue';
+import Professions from '@/views/Professions.vue';
+import AIAssistant from '@/views/AIAssistant.vue';
+import Directions from '@/views/Directions.vue';
+import DirectionDetail from '@/views/DirectionDetail.vue';
+import ProfessionDetail from '@/views/ProfessionDetail.vue';
+import LawProfessionDetail from '../views/LawProfessionDetail.vue';
+import { useAuthStore } from '@/stores/auth'; // Импортируйте ваш authStore
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,21 +88,24 @@ const router = createRouter({
       }
     }
   ]
-})
+});
 
 // Navigation guard
 router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore(); // Получите экземпляр стора
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Check if user is authenticated
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
-    if (!isAuthenticated) {
-      next('/auth')
+    // Check if user is authenticated using the store's getter
+    if (!authStore.isAuthenticated) {
+      console.log('Navigation guard: requiresAuth is true and user is NOT authenticated (via store), redirecting to /auth');
+      next('/auth');
     } else {
-      next()
+      console.log('Navigation guard: requiresAuth is true and user IS authenticated (via store), proceeding');
+      next();
     }
   } else {
-    next()
+    console.log('Navigation guard: route does not require auth, proceeding');
+    next();
   }
-})
+});
 
-export default router
+export default router;

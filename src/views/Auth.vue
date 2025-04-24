@@ -3,7 +3,7 @@
     <div class="row h-100 align-items-center justify-content-center">
       <div class="col-12 col-md-6 text-center">
         <Logo />
-        
+
         <div class="auth-content animate__animated animate__fadeIn">
           <div v-if="!showRegistration && !showLogin" class="auth-buttons">
             <button @click="showLogin = true" class="auth-button">
@@ -22,19 +22,19 @@
 
           <form v-if="showLogin" @submit.prevent="handleLogin" class="animate__animated animate__fadeIn">
             <div class="form-group">
-              <input 
-                type="email" 
-                v-model="loginForm.email" 
-                class="auth-input" 
+              <input
+                type="email"
+                v-model="loginForm.email"
+                class="auth-input"
                 placeholder="Email адрес"
                 required
               >
             </div>
             <div class="form-group">
-              <input 
-                type="password" 
-                v-model="loginForm.password" 
-                class="auth-input" 
+              <input
+                type="password"
+                v-model="loginForm.password"
+                class="auth-input"
                 placeholder="Пароль"
                 required
               >
@@ -52,28 +52,28 @@
 
           <form v-if="showRegistration" @submit.prevent="handleRegistration" class="animate__animated animate__fadeIn">
             <div class="form-group">
-              <input 
-                type="text" 
-                v-model="form.name" 
-                class="auth-input" 
+              <input
+                type="text"
+                v-model="form.name"
+                class="auth-input"
                 placeholder="Полное имя"
                 required
               >
             </div>
             <div class="form-group">
-              <input 
-                type="email" 
-                v-model="form.email" 
-                class="auth-input" 
+              <input
+                type="email"
+                v-model="form.email"
+                class="auth-input"
                 placeholder="Email адрес"
                 required
               >
             </div>
             <div class="form-group">
-              <input 
-                type="password" 
-                v-model="form.password" 
-                class="auth-input" 
+              <input
+                type="password"
+                v-model="form.password"
+                class="auth-input"
                 placeholder="Пароль"
                 required
               >
@@ -106,68 +106,87 @@ export default {
     Logo
   },
   setup() {
-    const router = useRouter()
-    const authStore = useAuthStore()
-    const showRegistration = ref(false)
-    const showLogin = ref(false)
-    const loginError = ref('')
-    const registrationError = ref('')
-    const isLoading = ref(false)
+    console.log('Auth component setup started');
+    const router = useRouter();
+    const authStore = useAuthStore();
+    const showRegistration = ref(false);
+    const showLogin = ref(false);
+    const loginError = ref('');
+    const registrationError = ref('');
+    const isLoading = ref(false);
 
     const form = ref({
       name: '',
       email: '',
       password: ''
-    })
+    });
+    console.log('Registration form ref created:', form);
 
     const loginForm = ref({
       email: '',
       password: ''
-    })
+    });
+    console.log('Login form ref created:', loginForm);
 
     const handleLogin = async () => {
+      console.log('handleLogin function called');
       try {
-        isLoading.value = true
-        loginError.value = ''
-        
-        await authStore.login(
+        isLoading.value = true;
+        loginError.value = '';
+        console.log('isLoading set to true, loginError cleared');
+
+        console.log('Calling authStore.login with:', loginForm.value.email, loginForm.value.password);
+        const loginResult = await authStore.login(
           loginForm.value.email,
           loginForm.value.password
-        )
-        
-        router.push('/dashboard')
+        );
+        console.log('authStore.login finished with result:', loginResult);
+
+        console.log('Attempting to push to /dashboard');
+        router.push('/dashboard');
+        console.log('router.push(/dashboard) called');
       } catch (error) {
-        loginError.value = error.response?.data?.message || 'Ошибка при входе'
+        loginError.value = error.response?.data?.message || 'Ошибка при входе';
+        console.error('Error during login:', error);
       } finally {
-        isLoading.value = false
+        isLoading.value = false;
+        console.log('isLoading set to false');
       }
-    }
+    };
 
     const handleRegistration = async () => {
+      console.log('handleRegistration function called');
       try {
-        isLoading.value = true
-        registrationError.value = ''
-        
-        await authStore.register(
+        isLoading.value = true;
+        registrationError.value = '';
+        console.log('isLoading set to true, registrationError cleared');
+
+        console.log('Calling authStore.register with:', form.value.name, form.value.email, form.value.password);
+        const registrationResult = await authStore.register(
           form.value.name,
           form.value.email,
           form.value.password
-        )
-        
+        );
+        console.log('authStore.register finished with result:', registrationResult);
+
         // После успешной регистрации показываем сообщение и возвращаемся к форме входа
-        showRegistration.value = false
-        showLogin.value = true
-        loginForm.value.email = form.value.email
-        form.value = { name: '', email: '', password: '' }
-        
+        showRegistration.value = false;
+        showLogin.value = true;
+        loginForm.value.email = form.value.email;
+        form.value = { name: '', email: '', password: '' };
+        console.log('Registration successful, showing login form');
+
         // Показываем сообщение об успешной регистрации
-        loginError.value = 'Регистрация успешна! Теперь вы можете войти в систему.'
+        loginError.value = 'Регистрация успешна! Теперь вы можете войти в систему.';
+        console.log('Registration success message set:', loginError.value);
       } catch (error) {
-        registrationError.value = error.response?.data?.message || 'Ошибка при регистрации'
+        registrationError.value = error.response?.data?.message || 'Ошибка при регистрации';
+        console.error('Error during registration:', error);
       } finally {
-        isLoading.value = false
+        isLoading.value = false;
+        console.log('isLoading set to false');
       }
-    }
+    };
 
     return {
       showRegistration,
@@ -179,7 +198,7 @@ export default {
       isLoading,
       handleLogin,
       handleRegistration
-    }
+    };
   }
 }
 </script>
@@ -317,4 +336,4 @@ export default {
   color: #98a3b3;
   font-size: 14px;
 }
-</style> 
+</style>
