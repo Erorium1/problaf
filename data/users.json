@@ -36,6 +36,22 @@
     "password": "$2b$10$zGhjtJn7DLyiLKTJL.7CoeTZAIDXyr5r/2dUAqQcA/U11ZLdMUmUa",
     "name": "Тестовый ющер",
     "createdAt": "2025-04-23T08:45:44.376Z",
-    "lastLogin": "2025-04-23T09:25:25.489Z"
+    "lastLogin": "2025-04-23T10:01:58.891Z"
+  },
+  {
+    "id": "1745506699766",
+    "email": "ee@ee1.kz",
+    "password": "$2b$10$jYw41z79Vzb80Ucjg/ju0eVSpPMKyyF4B2xI5J2C2pA5TcQWVfW4C",
+    "name": "tetet",
+    "createdAt": "2025-04-24T14:58:19.766Z",
+    "lastLogin": "2025-04-24T14:58:43.013Z"
+  },
+  {
+    "id": "1745558784894",
+    "email": "ee@ee.kz",
+    "password": "$2b$10$ANkqeiAcaB8DZPMxJ4Tp.emrKkxfz7SSNuBwj/MfyvYcLHkYnKehu",
+    "name": "ee@ee",
+    "createdAt": "2025-04-25T05:26:24.894Z",
+    "lastLogin": "2025-04-25T05:41:45.821Z"
   }
 ]

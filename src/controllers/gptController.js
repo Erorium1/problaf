@@ -1,9 +1,7 @@
-const axios = require('axios');
 const fs = require('fs').promises;
 const path = require('path');
 require('dotenv').config();
 
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
 const HISTORY_FILE = path.join(__dirname, '../../data/history.json');
 const CHATS_FILE = path.join(__dirname, '../../data/chats.json');
 
@@ -42,7 +40,7 @@ const createOrGetChat = async (userId) => {
         // Если нет активного чата, создаем новый
         if (!activeChat) {
             const newChat = {
-                id: Date.now().toString(), // Простой способ генерации ID
+                id: Date.now().toString(),
                 userId,
                 isActive: true,
                 createdAt: new Date().toISOString(),
@@ -61,59 +59,30 @@ const createOrGetChat = async (userId) => {
     }
 };
 
-const sendMessage = async (req, res) => {
+const saveChatMessage = async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, response } = req.body;
         const userId = req.user.id;
 
-        if (!message) {
-            return res.status(400).json({ message: 'Message is required' });
+        if (!message || !response) {
+            return res.status(400).json({ message: 'Message and response are required' });
         }
 
         // Получаем или создаем чат
         const chatId = await createOrGetChat(userId);
 
-        console.log('Sending message to Gemini:', message);
-
-        const response = await axios.post(
-            `${GEMINI_API_URL}?key=${process.env.GEMINI_KEY}`,
-            {
-                contents: [{
-                    parts: [{
-                        text: message
-                    }]
-                }]
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-
-        console.log('Gemini response:', response.data);
-
-        if (!response.data || !response.data.candidates || !response.data.candidates[0]) {
-            return res.status(500).json({ 
-                message: 'No response received from Gemini',
-                error: 'Empty response'
-            });
-        }
-
-        const text = response.data.candidates[0].content.parts[0].text;
-
-        // Сохраняем в историю с chatId
-        await saveToHistory(userId, message, text, chatId);
+        // Сохраняем в историю
+        await saveToHistory(userId, message, response, chatId);
 
         res.json({
-            response: text,
+            success: true,
             chatId: chatId
         });
     } catch (error) {
-        console.error('Gemini Error:', error.response?.data || error.message);
+        console.error('Error saving chat message:', error);
         res.status(500).json({ 
-            message: 'Error processing Gemini request',
-            error: error.response?.data || error.message 
+            message: 'Error saving chat message',
+            error: error.message 
         });
     }
 };
@@ -202,7 +171,7 @@ const getChatMessages = async (req, res) => {
 };
 
 module.exports = {
-    sendMessage,
+    saveChatMessage,
     getUserChats,
     getChatMessages
 };
