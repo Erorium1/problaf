@@ -126,7 +126,7 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
-import { gptService } from '@/services/api'
+import { gptService, geminiService } from '@/services/api'
 import { authService } from '@/services/api'
 import { useRouter } from 'vue-router'
 
@@ -203,7 +203,11 @@ export default {
       showChat.value = true
 
       try {
-        const response = await gptService.sendMessage(userMessage)
+        // Сначала отправляем сообщение в Gemini API
+        const aiResponse = await geminiService.sendMessage(userMessage)
+        
+        // Затем сохраняем сообщение и ответ в нашем бэкенде
+        const response = await gptService.saveChat(userMessage, aiResponse)
         
         // Устанавливаем ID чата
         selectedChatId.value = response.chatId
@@ -217,7 +221,7 @@ export default {
         
         allMessages.value.push({
           type: 'ai',
-          text: response.response,
+          text: aiResponse,
           timestamp: new Date().toISOString()
         })
 
