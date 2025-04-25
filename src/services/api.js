@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://easycar.kz:3000/',
+    baseURL: 'http://localhost:3000/',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -53,7 +53,7 @@ export const gptService = {
         return response.data;
     },
     getChatMessages: async (chatId) => {
-        const response = await api.get(`/gpt/chats/${chatId}/messages`);
+        const response = await api.get(`api/gpt/chats/${chatId}/messages`);
         return response.data;
     }
 };

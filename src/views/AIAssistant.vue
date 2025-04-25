@@ -76,9 +76,6 @@
           <button class="action-button mb-3" @click="handleAction('career')">
             Создать карьерный план
           </button>
-          <button class="action-button" @click="handleAction('games')">
-            Играть в мини игры
-          </button>
         </div>
       </div>
 
@@ -91,33 +88,37 @@
         </div>
       </div>
 
-      <div class="input-container" v-if="showChat">
-        <div class="input-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Напишите ваш вопрос..."
-            v-model="userInput"
-            @keyup.enter="sendMessage"
-            :disabled="isLoading"
-          >
-          <button
-            class="btn btn-send"
-            @click="sendMessage"
-            :disabled="isLoading || !userInput.trim()"
-          >
-            <i class="fas" :class="isLoading ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
-          </button>
+   
+      <div class="voice-controls" >
+        <div class="search-input-container">
+          <div class="search-input-wrapper">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Введите текст..."
+              v-model="userInput"
+              @keyup.enter="sendMessage"
+              :disabled="isLoading"
+            >
+            <div class="search-icons">
+              <button 
+                class="search-icon-button" 
+                @click="sendMessage"
+                :disabled="isLoading || !userInput.trim()"
+              >
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="voice-controls" v-if="showChat">
-        <button class="voice-button">
-          <i class="fas fa-search"></i>
-        </button>
-        <button class="voice-button">
-          <i class="fas fa-microphone"></i>
-        </button>
+      <!-- Добавим индикатор загрузки и сообщения об ошибках -->
+      <div v-if="isLoading" class="loading-indicator">
+        Отправка сообщения...
+      </div>
+      <div v-if="error" class="error-message">
+        {{ error }}
       </div>
     </div>
   </div>
@@ -135,7 +136,7 @@ export default {
     const router = useRouter()
     const userInput = ref('')
     const isLoading = ref(false)
-    const messages = ref([])
+    const error = ref(null)
     const showChat = ref(false)
     const isSidebarOpen = ref(false)
     const userChats = ref([])
@@ -182,9 +183,7 @@ export default {
       }
     }
 
-    const currentChatMessages = computed(() => {
-      return allMessages.value.filter(msg => msg.chatId === selectedChatId.value)
-    })
+    const currentChatMessages = computed(() => allMessages.value)
 
     const handleAction = (action) => {
       if (action === 'test') {
@@ -200,28 +199,33 @@ export default {
       const userMessage = userInput.value.trim()
       userInput.value = ''
       isLoading.value = true
+      error.value = null
       showChat.value = true
 
       try {
         const response = await gptService.sendMessage(userMessage)
         
+        // Устанавливаем ID чата
+        selectedChatId.value = response.chatId
+        
         // Добавляем сообщения в текущий чат
         allMessages.value.push({
           type: 'user',
           text: userMessage,
-          chatId: response.chatId
+          timestamp: new Date().toISOString()
         })
         
         allMessages.value.push({
           type: 'ai',
           text: response.response,
-          chatId: response.chatId
+          timestamp: new Date().toISOString()
         })
 
         // Обновляем список чатов
         await loadUserChats()
-      } catch (error) {
-        console.error('Ошибка при отправке сообщения:', error)
+      } catch (err) {
+        error.value = 'Ошибка при отправке сообщения: ' + (err.message || 'Неизвестная ошибка')
+        console.error('Ошибка при отправке сообщения:', err)
       } finally {
         isLoading.value = false
       }
@@ -234,7 +238,7 @@ export default {
     return {
       userInput,
       isLoading,
-      messages,
+      error,
       showChat,
       isSidebarOpen,
       userChats,
@@ -377,23 +381,46 @@ export default {
 .input-group {
   background-color: white;
   border-radius: 25px;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .form-control {
   border: none;
   background: transparent;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   font-size: 1rem;
   color: #333;
+  flex: 1;
+  padding-right: 100px; /* Место для иконок */
 }
 
 .form-control:focus {
   outline: none;
   box-shadow: none;
+}
+
+.input-icons {
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  color: #98a3b3;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-button:hover {
+  color: #7a8699;
 }
 
 .btn-send {
@@ -407,6 +434,7 @@ export default {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  margin-left: 0.5rem;
 }
 
 .btn-send:hover:not(:disabled) {
@@ -424,27 +452,63 @@ export default {
   bottom: 20px;
   left: 0;
   right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
   padding: 1rem;
 }
 
-.voice-button {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+.search-input-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.search-input-wrapper {
   background-color: white;
-  border: none;
-  color: #98a3b3;
+  border-radius: 25px;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  flex: 1;
+  padding-right: 100px;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-icons {
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.search-icon-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  color: #98a3b3;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.voice-button:hover {
-  background-color: #f0f0f0;
+.search-icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-icon-button:hover:not(:disabled) {
+  color: #7a8699;
   transform: translateY(-2px);
 }
 
@@ -607,5 +671,30 @@ export default {
 .chat-item.active .message-count {
   background-color: white;
   color: #98a3b3;
+}
+
+/* Добавим стили для индикатора загрузки и сообщений об ошибках */
+.loading-indicator {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
 }
 </style>
