@@ -17,6 +17,11 @@ import TestBlock3 from '@/views/TestBlock3.vue';
 import TestBlock4 from '@/views/TestBlock4.vue';
 import TestBlock5 from '@/views/TestBlock5.vue';
 import TestResults from '@/views/TestResults.vue';
+import SurveyBlock1 from '@/views/SurveyBlock1.vue';
+import SurveyBlock2 from '@/views/SurveyBlock2.vue';
+import SurveyBlock3 from '@/views/SurveyBlock3.vue';
+import SurveyBlock4 from '@/views/SurveyBlock4.vue';
+import SurveyBlock5 from '@/views/SurveyBlock5.vue';
 import { useAuthStore } from '@/stores/auth'; // Импортируйте ваш authStore
 
 const router = createRouter({
@@ -141,6 +146,36 @@ const router = createRouter({
       path: '/test/results',
       name: 'test-results',
       component: TestResults,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/survey/block1',
+      name: 'survey-block-1',
+      component: SurveyBlock1,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/survey/block2',
+      name: 'survey-block-2',
+      component: SurveyBlock2,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/survey/block3',
+      name: 'survey-block-3',
+      component: SurveyBlock3,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/survey/block4',
+      name: 'survey-block-4',
+      component: SurveyBlock4,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/survey/block5',
+      name: 'survey-block-5',
+      component: SurveyBlock5,
       meta: { requiresAuth: true }
     }
   ]

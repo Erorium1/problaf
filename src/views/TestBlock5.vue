@@ -169,11 +169,13 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
   name: 'TestBlock5',
   setup() {
     const router = useRouter()
+    const authStore = useAuthStore()
     const ratings = ref({
       q1: null,
       q2: null,
@@ -191,12 +193,36 @@ export default {
       ratings.value[question] = rating
     }
 
-    const handleNext = () => {
+    const handleNext = async () => {
       if (Object.values(ratings.value).every(rating => rating !== null)) {
-        console.log('Ratings for block 5:', ratings.value);
-        router.push('/test/results');
+        try {
+          const response = await fetch('http://localhost:3000/api/test/save-results', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authStore.token}`
+            },
+            body: JSON.stringify({
+              userId: authStore.user.id,
+              block1: ratings.value,
+              block2: ratings.value,
+              block3: ratings.value,
+              block4: ratings.value,
+              block5: ratings.value
+            })
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to save test results')
+          }
+
+          router.push('/test/results')
+        } catch (error) {
+          console.error('Error saving test results:', error)
+          alert('Ошибка при сохранении результатов теста')
+        }
       } else {
-        alert('Пожалуйста, ответьте на все вопросы перед тем как продолжить');
+        alert('Пожалуйста, ответьте на все вопросы перед тем как продолжить')
       }
     }
 

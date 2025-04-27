@@ -188,6 +188,8 @@ export default {
     const handleAction = (action) => {
       if (action === 'test') {
         router.push('/test')
+      } else if (action === 'survey') {
+        router.push('/survey/block1')
       } else {
         console.log('Selected action:', action)
       }
