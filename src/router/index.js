@@ -23,6 +23,9 @@ import SurveyBlock3 from '@/views/SurveyBlock3.vue';
 import SurveyBlock4 from '@/views/SurveyBlock4.vue';
 import SurveyBlock5 from '@/views/SurveyBlock5.vue';
 import Profile from '@/views/Profile.vue';
+import CountryUniversities from '@/views/CountryUniversities.vue';
+import TopUniversities from '@/views/TopUniversities.vue'
+import UniversityDetail from "@/views/UniversityDetail.vue"
 import { useAuthStore } from '@/stores/auth'; // Импортируйте ваш authStore
 
 const router = createRouter({
@@ -184,7 +187,10 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
       meta: { requiresAuth: true }
-    }
+    },
+    { path: '/universities/:code', component: CountryUniversities },
+  { path: '/universities/:code/top', component: TopUniversities },
+  { path: '/universities/:code/top/:universityId', component: UniversityDetail }
   ]
 });
 

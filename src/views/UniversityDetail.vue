@@ -1,0 +1,145 @@
+<template>
+    <div class="university-detail">
+      <!-- Navigation bar -->
+      <nav class="navbar navbar-light">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center">
+            <button @click="$router.go(-1)" class="btn btn-link p-0 me-3">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="navbar-brand mb-0">{{ university?.name || 'Университет' }}</h1>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Настройки</a></li>
+              <li><a class="dropdown-item" href="#">Помощь</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  
+      <!-- Main content -->
+      <div class="container py-4">
+        <div class="home-button mb-4">
+          <router-link to="/dashboard" class="btn btn-home">
+            <i class="fas fa-home"></i>
+          </router-link>
+        </div>
+  
+        <div class="description-card">
+          <h2>Описание</h2>
+          <p>{{ university?.description || 'Описание недоступно.' }}</p>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'UniversityDetail',
+    data() {
+      return {
+        universityData: {
+          US: [
+            { id: 'US1', name: 'Harvard University', description: 'A prestigious Ivy League university known for its academic excellence and research.' },
+            { id: 'US2', name: 'MIT', description: 'Massachusetts Institute of Technology, renowned for innovation in science and technology.' }
+          ],
+          CN: [
+            { id: 'CN1', name: 'Tsinghua University', description: 'One of China\'s top universities, known for engineering and technology programs.' },
+            { id: 'CN2', name: 'Peking University', description: 'A leading university in China, famous for its humanities and social sciences.' },
+            { id: 'CN3', name: 'Fudan University', description: 'Located in Shanghai, Fudan is renowned for its research and global partnerships.' }
+          ],
+          KR: [
+            { id: 'KR1', name: 'Seoul National University (SNU)', description: 'South Korea\'s top university, known for its comprehensive academic programs.' },
+            { id: 'KR2', name: 'Korea University', description: 'A prestigious private university in Seoul, part of the SKY universities.' },
+            { id: 'KR3', name: 'Yonsei University', description: 'One of South Korea\'s oldest universities, renowned for its medical school and global outreach.' }
+          ]
+        }
+      }
+    },
+    computed: {
+      university() {
+        const code = this.$route.params.code;
+        const universityId = this.$route.params.universityId;
+        const universities = this.universityData[code] || [];
+        return universities.find(uni => uni.id === universityId);
+      }
+    }
+  }
+  </script>
+  
+  <style scoped>
+  .university-detail {
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+  
+  .navbar {
+    padding: 1rem;
+    background-color: #fff;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+  }
+  
+  .btn-home {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #98a3b3;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-home:hover {
+    background-color: #7a8699;
+    transform: translateY(-2px);
+  }
+  
+  .description-card {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .description-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description-card p {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .btn-link {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 1.5rem;
+  }
+  
+  @media (max-width: 576px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  </style>

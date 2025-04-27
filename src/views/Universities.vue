@@ -63,8 +63,7 @@ export default {
   },
   methods: {
     selectCountry(code) {
-      // В будущем здесь будет переход на страницу конкретной страны
-      console.log('Selected country:', code)
+      this.$router.push(`/universities/${code}`);
     }
   }
 }
@@ -160,4 +159,4 @@ export default {
     padding-right: 1.5rem;
   }
 }
-</style> 
+</style>
