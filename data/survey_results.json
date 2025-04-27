@@ -1,0 +1,149 @@
+[
+  {
+    "profile": {
+      "type": "single",
+      "profile": {
+        "type": "P",
+        "name": "Предприниматель",
+        "suitableProfessions": [
+          "бизнесмен",
+          "стартапер",
+          "маркетолог",
+          "менеджер проектов"
+        ],
+        "advice": "Ищите гибкие направления с возможностью роста и свободы"
+      },
+      "scores": {
+        "A": 2,
+        "K": 8,
+        "T": 0,
+        "L": 2,
+        "I": 11,
+        "P": 12
+      }
+    },
+    "answers": {
+      "q1_1": "9-18",
+      "q1_2": "income",
+      "q1_3": "support",
+      "q1_4": "tech",
+      "q2_1": "team",
+      "q2_2": "result",
+      "q2_3": "organizer",
+      "q2_4": "oneplace",
+      "q3_1": "positive",
+      "q3_2": "decisions",
+      "q3_3": "clarity",
+      "q3_4": "like",
+      "q4_1": "clear",
+      "q4_2": "together",
+      "q4_3": "very",
+      "q5_1": "courses",
+      "q5_2": "business"
+    },
+    "user": {
+      "id": "1745558784894",
+      "name": "ee@ee",
+      "email": "ee@ee.kz"
+    },
+    "createdAt": "2025-04-27T17:01:07.932Z"
+  },
+  {
+    "profile": {
+      "type": "single",
+      "profile": {
+        "type": "P",
+        "name": "Предприниматель",
+        "suitableProfessions": [
+          "бизнесмен",
+          "стартапер",
+          "маркетолог",
+          "менеджер проектов"
+        ],
+        "advice": "Ищите гибкие направления с возможностью роста и свободы"
+      },
+      "scores": {
+        "A": 2,
+        "K": 8,
+        "T": 0,
+        "L": 2,
+        "I": 11,
+        "P": 12
+      }
+    },
+    "answers": {
+      "q1_1": "9-18",
+      "q1_2": "income",
+      "q1_3": "support",
+      "q1_4": "tech",
+      "q2_1": "team",
+      "q2_2": "result",
+      "q2_3": "organizer",
+      "q2_4": "oneplace",
+      "q3_1": "positive",
+      "q3_2": "decisions",
+      "q3_3": "clarity",
+      "q3_4": "like",
+      "q4_1": "clear",
+      "q4_2": "together",
+      "q4_3": "very",
+      "q5_1": "courses",
+      "q5_2": "business"
+    },
+    "user": {
+      "id": "1745558784894",
+      "name": "ee@ee",
+      "email": "ee@ee.kz"
+    },
+    "createdAt": "2025-04-27T17:01:16.602Z"
+  },
+  {
+    "profile": {
+      "type": "single",
+      "profile": {
+        "type": "P",
+        "name": "Предприниматель",
+        "suitableProfessions": [
+          "бизнесмен",
+          "стартапер",
+          "маркетолог",
+          "менеджер проектов"
+        ],
+        "advice": "Ищите гибкие направления с возможностью роста и свободы"
+      },
+      "scores": {
+        "A": 2,
+        "K": 8,
+        "T": 0,
+        "L": 2,
+        "I": 11,
+        "P": 12
+      }
+    },
+    "answers": {
+      "q1_1": "9-18",
+      "q1_2": "income",
+      "q1_3": "support",
+      "q1_4": "tech",
+      "q2_1": "team",
+      "q2_2": "result",
+      "q2_3": "organizer",
+      "q2_4": "oneplace",
+      "q3_1": "positive",
+      "q3_2": "decisions",
+      "q3_3": "clarity",
+      "q3_4": "like",
+      "q4_1": "clear",
+      "q4_2": "together",
+      "q4_3": "very",
+      "q5_1": "courses",
+      "q5_2": "business"
+    },
+    "user": {
+      "id": "1745558784894",
+      "name": "ee@ee",
+      "email": "ee@ee.kz"
+    },
+    "createdAt": "2025-04-27T17:01:22.107Z"
+  }
+]

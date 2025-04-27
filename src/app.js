@@ -7,6 +7,8 @@ const https = require('https');
 const config = require('./config');
 const authRoutes = require('./routes/auth');
 const gptRoutes = require('./routes/gpt');
+const testRoutes = require('./routes/testRoutes');
+const surveyRoutes = require('./routes/surveyRoutes');
 const app = express();
 
 const privateKeyPath = '/etc/letsencrypt/live/easycar.kz/privkey.pem';
@@ -58,6 +60,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/gpt', gptRoutes);
+app.use('/api/test', testRoutes);
+app.use('/api/survey', surveyRoutes);
 
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the backend API' });

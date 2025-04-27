@@ -39,7 +39,6 @@
     "lastLogin": "2025-04-23T10:01:58.891Z"
   },
   {
-<<<<<<< HEAD
     "id": "1745506699766",
     "email": "ee@ee1.kz",
     "password": "$2b$10$jYw41z79Vzb80Ucjg/ju0eVSpPMKyyF4B2xI5J2C2pA5TcQWVfW4C",
@@ -53,46 +52,6 @@
     "password": "$2b$10$ANkqeiAcaB8DZPMxJ4Tp.emrKkxfz7SSNuBwj/MfyvYcLHkYnKehu",
     "name": "ee@ee",
     "createdAt": "2025-04-25T05:26:24.894Z",
-    "lastLogin": "2025-04-25T05:41:45.821Z"
-=======
-    "id": "1745470339449",
-    "email": "redpack@yandex.kz",
-    "password": "$2b$10$.v/U6thbapWwHKc8V3IjjeVrebgfqhHSTrXIJ2RjJDAnMgaTqrvPO",
-    "name": "Ed",
-    "createdAt": "2025-04-24T04:52:19.450Z",
-    "lastLogin": "2025-04-24T08:56:52.161Z"
-  },
-  {
-    "id": "1745484534834",
-    "email": "ee@ee.kz",
-    "password": "$2b$10$TK/lyVwRbTtIGiDirdOtHuVGQc6kaNENX2EchYACef.K.pjOVLnXa",
-    "name": "testbek",
-    "createdAt": "2025-04-24T08:48:54.834Z",
-    "lastLogin": "2025-04-24T14:54:22.723Z"
-  },
-  {
-    "id": "1745494041352",
-    "email": "balausaodinodin1@gmail.com",
-    "password": "$2b$10$iec/UljT/F/oL0WIQ2Skwu0c6XpK8iBUC0QqA.1TewDBQT9jsD5nG",
-    "name": "Balausa ",
-    "createdAt": "2025-04-24T11:27:21.352Z",
-    "lastLogin": "2025-04-24T13:57:02.223Z"
-  },
-  {
-    "id": "1745495316639",
-    "email": "vadodaria.amaliyakz@gmail.com",
-    "password": "$2b$10$dWUr0FG.o2GtxUHGp2PVI.BS0KO8pWBTqNbsRrex.6/8Gesd/iSxq",
-    "name": "Amaliya",
-    "createdAt": "2025-04-24T11:48:36.640Z",
-    "lastLogin": "2025-04-24T11:51:24.109Z"
-  },
-  {
-    "id": "1745505535582",
-    "email": "test@test.test",
-    "password": "$2b$10$mKr61QDdY2RbKcbfhCkz6OMTs61yIsopFTFU/rDGh0CY2.lCTrQjy",
-    "name": "Testbek",
-    "createdAt": "2025-04-24T14:38:55.582Z",
-    "lastLogin": "2025-04-24T14:39:01.067Z"
->>>>>>> 311bf360a75f1dc041340ab150ff600905c319e0
+    "lastLogin": "2025-04-27T16:41:54.761Z"
   }
 ]
