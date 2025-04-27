@@ -63,12 +63,13 @@
         <div class="ai-assistant-card mb-4">
           <div class="card-content text-center">
             <div class="ai-icon">
-              <svg width="120" height="120" viewBox="0 0 120 120">
+              <!-- <svg width="120" height="120" viewBox="0 0 120 120">
                 <circle cx="60" cy="60" r="58" fill="none" stroke="white" stroke-width="2"/>
-                <circle cx="45" cy="50" r="5" fill="white"/> <!-- Left eye -->
-                <circle cx="75" cy="50" r="5" fill="white"/> <!-- Right eye -->
-                <path d="M45,70 Q60,80 75,70" stroke="white" stroke-width="3" fill="none"/> <!-- Smile -->
-              </svg>
+                <circle cx="45" cy="50" r="5" fill="white"/> 
+                <circle cx="75" cy="50" r="5" fill="white"/> 
+                <path d="M45,70 Q60,80 75,70" stroke="white" stroke-width="3" fill="none"/> 
+              </svg> -->
+              <img class="img-fluid" src="../assets/iconlupa.png" alt="">
             </div>
             <h3 class="text-white mb-2">ИИ-помощник</h3>
             <p class="text-white-50 mb-0">Нажмите, чтобы задать вопрос ИИ!</p>
@@ -181,15 +182,32 @@ export default {
   padding: 2rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.ai-assistant-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 100%;
 }
 
 .ai-icon {
   margin-bottom: 1rem;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-icon img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .feature-card {
