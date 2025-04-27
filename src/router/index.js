@@ -22,6 +22,7 @@ import SurveyBlock2 from '@/views/SurveyBlock2.vue';
 import SurveyBlock3 from '@/views/SurveyBlock3.vue';
 import SurveyBlock4 from '@/views/SurveyBlock4.vue';
 import SurveyBlock5 from '@/views/SurveyBlock5.vue';
+import Profile from '@/views/Profile.vue';
 import { useAuthStore } from '@/stores/auth'; // Импортируйте ваш authStore
 
 const router = createRouter({
@@ -176,6 +177,12 @@ const router = createRouter({
       path: '/survey/block5',
       name: 'survey-block-5',
       component: SurveyBlock5,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
       meta: { requiresAuth: true }
     }
   ]

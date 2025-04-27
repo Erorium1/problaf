@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://easycar.kz:3000/',
+    baseURL: 'http://localhost:3000',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -85,6 +85,19 @@ export const gptService = {
     },
     getChatMessages: async (chatId) => {
         const response = await api.get(`/gpt/chats/${chatId}/messages`);
+        return response.data;
+    }
+};
+
+// Сервис для работы с результатами опроса
+export const surveyService = {
+    async saveResults(profile, answers) {
+        const response = await api.post('/api/survey/results', { profile, answers });
+        return response.data;
+    },
+
+    async getResults() {
+        const response = await api.get('/api/survey/results');
         return response.data;
     }
 };

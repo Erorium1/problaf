@@ -68,6 +68,10 @@ export default {
         alert('Пожалуйста, выберите ответы на все вопросы!')
         return
       }
+      
+      // Сохраняем ответы в localStorage
+      localStorage.setItem('survey_block4', JSON.stringify(answers.value))
+      
       router.push('/survey/block5')
     }
 

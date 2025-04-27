@@ -190,8 +190,9 @@ export default {
         router.push('/test')
       } else if (action === 'survey') {
         router.push('/survey/block1')
-      } else {
-        console.log('Selected action:', action)
+      } else if (action === 'career') {
+        userInput.value = 'Помоги мне создать карьерный план'
+        showChat.value = true
       }
     }
 

@@ -45,6 +45,8 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { analyzeProfile } from '@/utils/profileAnalyzer'
+import { surveyService } from '@/services/api'
 
 export default {
   name: 'SurveyBlock5',
@@ -54,14 +56,41 @@ export default {
       q5_1: '', q5_2: ''
     })
 
-    const handleNext = () => {
+    const handleNext = async () => {
       const allAnswered = Object.values(answers.value).every(val => val)
       if (!allAnswered) {
         alert('Пожалуйста, выберите ответы на все вопросы!')
         return
       }
-      alert('Спасибо за прохождение опроса!')
-      router.push('/ai-assistant')
+
+      // Сохраняем текущие ответы
+      localStorage.setItem('survey_block5', JSON.stringify(answers.value))
+
+      // Получаем все ответы из localStorage
+      const allAnswers = {}
+      for (let i = 1; i <= 5; i++) {
+        const blockAnswers = JSON.parse(localStorage.getItem(`survey_block${i}`) || '{}')
+        Object.assign(allAnswers, blockAnswers)
+      }
+
+      // Анализируем профиль
+      const profileResult = analyzeProfile(allAnswers)
+
+      // Сохраняем результат
+      localStorage.setItem('profile_result', JSON.stringify(profileResult))
+
+      try {
+        // Получаем информацию о пользователе
+        const userData = JSON.parse(localStorage.getItem('user') || '{}')
+
+        // Отправляем результаты через сервис
+        await surveyService.saveResults(profileResult, allAnswers, userData)
+        alert('Спасибо за прохождение опроса!')
+        router.push('/profile')
+      } catch (error) {
+        console.error('Error saving results:', error)
+        alert('Произошла ошибка при сохранении результатов')
+      }
     }
 
     return {
