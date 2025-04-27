@@ -52,7 +52,6 @@ export default {
         { id: 'hospitality', name: 'Общественное питание и гостиничный бизнес' },
         { id: 'security', name: 'Безопасность и охрана' },
         { id: 'science', name: 'Наука и исследования' },
-        { id: 'culture', name: 'Культура и искусство' },
         { id: 'sports', name: 'Спорт и фитнес' },
         { id: 'it', name: 'Информационные технологии (IT)' },
         { id: 'medicine', name: 'Здравоохранение и медицина' },
@@ -61,7 +60,8 @@ export default {
         { id: 'engineering', name: 'Техническая и инженерная сфера' },
         { id: 'business', name: 'Бизнес и управление' },
         { id: 'creative', name: 'Креативные индустрии и искусство' },
-        { id: 'agriculture', name: 'Сельское хозяйство и экология' }
+        { id: 'agriculture', name: 'Сельское хозяйство и экология' },
+        { id: 'services', name: 'Сфера услуг' }
       ]
     }
   },

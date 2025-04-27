@@ -1043,7 +1043,59 @@ export default {
               }
             ]
           }
-        }
+        },
+        creative: {
+          title: 'Креативные профессии',
+          pages: {
+            1: [
+              {
+                title: 'Музыкант / Певец',
+                descriptions: [
+                  '-выступления и вдохновение',
+                  '-создаёт музыку и исполняет её для публики.'
+                ]
+              },
+              {
+                title: 'Режиссёр',
+                descriptions: [
+                  '-управление творческим процессом',
+                  '-ставит фильмы, спектакли или клипы, руководит съёмкой.'
+                ]
+              },
+              {
+                title: 'Сценарист',
+                descriptions: [
+                  '-сочинение историй',
+                  '-пишет сценарии для фильмов, сериалов и шоу.'
+                ]
+              }
+            ],
+            2: [
+              {
+                title: 'Модельер / Дизайнер одежды',
+                descriptions: [
+                  '-создание стиля',
+                  '-придумывает и шьёт модную одежду.'
+                ]
+              },
+              {
+                title: 'Графический дизайнер',
+                descriptions: [
+                  '-работа в digital',
+                  '-создаёт логотипы, баннеры, интерфейсы и упаковку.'
+                ]
+              },
+              {
+                title: 'Арт-директор',
+                descriptions: [
+                  '-ведение концепции',
+                  '-отвечает за визуальный стиль проекта или бренда.'
+                ]
+              }
+            ]
+          }
+        },
+        
       }
     }
   },
@@ -1129,7 +1181,7 @@ export default {
 .btn-home:hover {
   background-color: #7a8699;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .profession-items {
@@ -1184,12 +1236,12 @@ export default {
 .nav-button:hover {
   background-color: #7a8699;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-menu {
   border: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-item {
@@ -1202,4 +1254,4 @@ export default {
     padding-right: 1.5rem;
   }
 }
-</style> 
+</style>
