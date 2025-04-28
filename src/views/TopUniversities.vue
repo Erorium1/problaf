@@ -61,22 +61,23 @@
           { code: 'MY', name: 'Малайзия' },
           { code: 'SG', name: 'Сингапур' }
         ],
-        universityData: {
-          US: [
-            { id: 'US1', name: 'Harvard University', description: 'A prestigious Ivy League university known for its academic excellence and research.' },
-            { id: 'US2', name: 'MIT', description: 'Massachusetts Institute of Technology, renowned for innovation in science and technology.' }
-          ],
-          CN: [
-            { id: 'CN1', name: 'Tsinghua University', description: 'One of China\'s top universities, known for engineering and technology programs.' },
-            { id: 'CN2', name: 'Peking University', description: 'A leading university in China, famous for its humanities and social sciences.' },
-            { id: 'CN3', name: 'Fudan University', description: 'Located in Shanghai, Fudan is renowned for its research and global partnerships.' }
-          ],
-          KR: [
-            { id: 'KR1', name: 'Seoul National University (SNU)', description: 'South Korea\'s top university, known for its comprehensive academic programs.' },
-            { id: 'KR2', name: 'Korea University', description: 'A prestigious private university in Seoul, part of the SKY universities.' },
-            { id: 'KR3', name: 'Yonsei University', description: 'One of South Korea\'s oldest universities, renowned for its medical school and global outreach.' }
-          ]
+        universityData: null, // Initialize as null
+        loading: true,
+        error: null
+      };
+    },
+    async created() {
+      try {
+        const response = await fetch('/universities.json'); // Ensure the path is correct
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        this.universityData = await response.json();
+        this.loading = false;
+      } catch (e) {
+        this.error = e;
+        this.loading = false;
+        console.error("Could not load university data:", e);
       }
     },
     computed: {
@@ -86,6 +87,9 @@
         return country ? country.name : 'Страна';
       },
       universities() {
+        if (!this.universityData) {
+          return []; // Return an empty array if data is not loaded yet
+        }
         const code = this.$route.params.code;
         return this.universityData[code] || [];
       }
@@ -95,8 +99,9 @@
         this.$router.push(`/universities/${this.$route.params.code}/top/${universityId}`);
       }
     }
-  }
+  };
   </script>
+  
   
   <style scoped>
   .top-universities {

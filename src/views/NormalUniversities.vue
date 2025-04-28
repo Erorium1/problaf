@@ -1,5 +1,5 @@
 <template>
-    <div class="country-universities">
+    <div class="top-universities">
       <!-- Navigation bar -->
       <nav class="navbar navbar-light">
         <div class="container-fluid">
@@ -7,7 +7,7 @@
             <button @click="$router.go(-1)" class="btn btn-link p-0 me-3">
               <i class="fas fa-arrow-left"></i>
             </button>
-            <h1 class="navbar-brand mb-0">{{ countryName }} - Университеты</h1>
+            <h1 class="navbar-brand mb-0">{{ countryName }} - Нормальные ВУЗы</h1>
           </div>
           <div class="dropdown">
             <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
@@ -29,22 +29,16 @@
           </router-link>
         </div>
   
-        <div class="university-options">
+        <div class="university-list">
           <button 
-            class="option-button"
-            @click="selectOption('top')"
+            v-for="(university, index) in universities" 
+            :key="university.id"
+            class="university-button"
+            @click="viewUniversity(university.id)"
           >
-            <span class="option-label">Топ университеты</span>
+            <span class="university-number">{{ index + 1 }}</span>
+            {{ university.name }}
           </button>
-          <button 
-            class="option-button"
-            @click="selectOption('regular')"
-          >
-            <span class="option-label">Нормальные университеты</span>
-          </button>
-          <router-link to="/universities" class="btn btn-home">
-            <i class="fas fa-arrow-left"></i>
-          </router-link>
         </div>
       </div>
     </div>
@@ -52,7 +46,7 @@
   
   <script>
   export default {
-    name: 'CountryUniversities',
+    name: 'TopUniversities',
     data() {
       return {
         countries: [
@@ -66,7 +60,24 @@
           { code: 'FR', name: 'Франция' },
           { code: 'MY', name: 'Малайзия' },
           { code: 'SG', name: 'Сингапур' }
-        ]
+        ],
+        universityData: null, // Initialize as null
+        loading: true,
+        error: null
+      };
+    },
+    async created() {
+      try {
+        const response = await fetch('/Normaluniversities.json'); // Ensure the path is correct
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        this.universityData = await response.json();
+        this.loading = false;
+      } catch (e) {
+        this.error = e;
+        this.loading = false;
+        console.error("Could not load university data:", e);
       }
     },
     computed: {
@@ -74,22 +85,26 @@
         const code = this.$route.params.code;
         const country = this.countries.find(c => c.code === code);
         return country ? country.name : 'Страна';
+      },
+      universities() {
+        if (!this.universityData) {
+          return []; // Return an empty array if data is not loaded yet
+        }
+        const code = this.$route.params.code;
+        return this.universityData[code] || [];
       }
     },
     methods: {
-      selectOption(type) {
-        if (type === 'top') {
-          this.$router.push(`/universities/${this.$route.params.code}/top`);
-        } else {
-          this.$router.push(`/universities/${this.$route.params.code}/normal`);
-        }
+      viewUniversity(universityId) {
+        this.$router.push(`/universities/${this.$route.params.code}/normal/${universityId}`);
       }
     }
-  }
+  };
   </script>
   
+  
   <style scoped>
-  .country-universities {
+  .top-universities {
     min-height: 100vh;
     background-color: #ffffff;
   }
@@ -122,13 +137,13 @@
     transform: translateY(-2px);
   }
   
-  .university-options {
+  .university-list {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
   }
   
-  .option-button {
+  .university-button {
     background-color: #98a3b3;
     border: none;
     border-radius: 15px;
@@ -142,13 +157,19 @@
     align-items: center;
   }
   
-  .option-button:hover {
+  .university-button:hover {
     background-color: #7a8699;
     transform: translateY(-2px);
   }
   
-  .option-label {
-    font-size: 1rem;
+  .university-number {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    min-width: 30px;
+    text-align: center;
   }
   
   .btn-link {
