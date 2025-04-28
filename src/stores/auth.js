@@ -5,7 +5,8 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
     token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getItem('token')
+    isAuthenticated: !!localStorage.getItem('token'),
+    testAnalysis: null
   }),
 
   actions: {
@@ -58,6 +59,14 @@ export const useAuthStore = defineStore('auth', {
         }
       }
       return false
+    },
+
+    setTestAnalysis(analysis) {
+      this.testAnalysis = analysis;
+    },
+    
+    clearTestAnalysis() {
+      this.testAnalysis = null;
     }
   }
 }) 

@@ -170,12 +170,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useTestStore } from '@/stores/test'
 
 export default {
   name: 'TestBlock5',
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
+    const testStore = useTestStore()
     const ratings = ref({
       q1: null,
       q2: null,
@@ -194,35 +196,75 @@ export default {
     }
 
     const handleNext = async () => {
-      if (Object.values(ratings.value).every(rating => rating !== null)) {
-        try {
-          const response = await fetch('http://localhost:3000/api/test/save-results', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${authStore.token}`
-            },
-            body: JSON.stringify({
-              userId: authStore.user.id,
-              block1: ratings.value,
-              block2: ratings.value,
-              block3: ratings.value,
-              block4: ratings.value,
-              block5: ratings.value
-            })
-          })
-
-          if (!response.ok) {
-            throw new Error('Failed to save test results')
-          }
-
-          router.push('/test/results')
-        } catch (error) {
-          console.error('Error saving test results:', error)
-          alert('Ошибка при сохранении результатов теста')
-        }
-      } else {
+      // Проверяем, все ли поля заполнены
+      const allFilled = Object.values(ratings.value).every(rating => rating !== null)
+      
+      if (!allFilled) {
         alert('Пожалуйста, ответьте на все вопросы перед тем как продолжить')
+        return
+      }
+
+      // Проверяем авторизацию
+      if (!authStore.isAuthenticated) {
+        alert('Для сохранения результатов необходимо авторизоваться')
+        router.push('/auth')
+        return
+      }
+
+      try {
+        // Сохраняем результаты текущего блока
+        testStore.saveBlockResults(5, ratings.value)
+
+        // Получаем все результаты из store
+        const allResults = testStore.testResults
+
+        // Проверяем, что все блоки заполнены
+        const allBlocksFilled = Object.values(allResults).every(block => 
+          block && Object.keys(block).length > 0
+        )
+
+        if (!allBlocksFilled) {
+          alert('Пожалуйста, заполните все блоки теста')
+          return
+        }
+
+        console.log('Sending results:', {
+          userId: authStore.user?.id || authStore.user?._id,
+          block1: allResults.block1,
+          block2: allResults.block2,
+          block3: allResults.block3,
+          block4: allResults.block4,
+          block5: allResults.block5
+        })
+
+        // Отправляем все результаты на сервер
+        const response = await fetch('http://localhost:3000/api/test/save-results', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authStore.token}`
+          },
+          body: JSON.stringify({
+            block1: allResults.block1,
+            block2: allResults.block2,
+            block3: allResults.block3,
+            block4: allResults.block4,
+            block5: allResults.block5
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('Ошибка при сохранении результатов')
+        }
+
+        // Очищаем store после успешной отправки
+        testStore.clearResults()
+        
+        // Переходим на страницу результатов
+        router.push('/test/results')
+      } catch (error) {
+        console.error('Error saving test results:', error)
+        alert('Произошла ошибка при сохранении результатов. Пожалуйста, попробуйте позже.')
       }
     }
 

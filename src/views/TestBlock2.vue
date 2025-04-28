@@ -169,11 +169,13 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTestStore } from '@/stores/test'
 
 export default {
   name: 'TestBlock2',
   setup() {
     const router = useRouter()
+    const testStore = useTestStore()
     const ratings = ref({
       q1: null,
       q2: null,
@@ -200,8 +202,8 @@ export default {
         return
       }
 
-      // Сохраняем ответы и переходим к следующему блоку
-      console.log('Block 2 Ratings:', ratings.value)
+      // Сохраняем результаты в store
+      testStore.saveBlockResults(2, ratings.value)
       router.push('/test/block3')
     }
 
