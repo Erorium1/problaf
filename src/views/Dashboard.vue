@@ -42,9 +42,9 @@
             <i class="fas fa-user"></i>
             <span>Профиль</span>
           </router-link>
-          <router-link to="/settings" class="sidebar-item" @click="toggleSidebar">
-            <i class="fas fa-cog"></i>
-            <span>Настройки</span>
+          <router-link to="/about" class="sidebar-item" @click="toggleSidebar">
+            <i class="fas fa-eject"></i>
+            <span>О нас</span>
           </router-link>
           <a href="#" class="sidebar-item" @click="handleLogout">
             <i class="fas fa-sign-out-alt"></i>
@@ -111,14 +111,15 @@
             </div>
           </router-link>
         </div>
-
         <div class="col-6">
-          <div class="feature-card">
-            <div class="card-body text-center">
-              <h4>Профориентологи</h4>
-              <p class="small mb-0">Получай советы от экспертов</p>
+          <router-link to="/profoerient" class="text-decoration-none">
+            <div class="feature-card">
+              <div class="card-body text-center">
+                <h4>Профориентологи</h4>
+                <p class="small mb-0">Получай советы от экспертов</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
