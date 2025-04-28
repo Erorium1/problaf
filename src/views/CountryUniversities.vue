@@ -56,6 +56,7 @@
     data() {
       return {
         countries: [
+        { code: 'KZ', name: 'Казахстан' },
           { code: 'US', name: 'США' },
           { code: 'CA', name: 'Канада' },
           { code: 'KR', name: 'Южная Корея' },

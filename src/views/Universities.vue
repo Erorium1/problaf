@@ -8,6 +8,7 @@
           </button>
           <h1 class="navbar-brand mb-0">Страны по топ ВУЗам</h1>
         </div>
+
         <div class="dropdown">
           <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
             <i class="fas fa-ellipsis-v"></i>
@@ -28,13 +29,14 @@
       </div>
 
       <div class="country-list">
-        <button 
-          v-for="country in countries" 
+        <button
+          v-for="country in countries"
           :key="country.code"
           class="country-button"
           @click="selectCountry(country.code)"
         >
-          <span class="country-code">{{ country.code }}</span>
+          <!-- Используем класс флага для отображения флага -->
+          <span :class="'flag-icon flag-icon-' + country.code.toLowerCase()" class="flag-icon me-2"></span>
           {{ country.name }}
         </button>
       </div>
@@ -48,6 +50,7 @@ export default {
   data() {
     return {
       countries: [
+        { code: 'KZ', name: 'Казахстан' },
         { code: 'US', name: 'США' },
         { code: 'CA', name: 'Канада' },
         { code: 'KR', name: 'Южная Корея' },
@@ -57,7 +60,8 @@ export default {
         { code: 'DE', name: 'Германия' },
         { code: 'FR', name: 'Франция' },
         { code: 'MY', name: 'Малайзия' },
-        { code: 'SG', name: 'Сингапур' }
+        { code: 'SG', name: 'Сингапур' },
+        { code: 'FI', name: 'Финляндия' }
       ]
     }
   },
@@ -146,7 +150,7 @@ export default {
 
 .dropdown-menu {
   border: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-item {
