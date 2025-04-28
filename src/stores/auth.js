@@ -2,12 +2,15 @@ import { defineStore } from 'pinia'
 import { authService } from '@/services/api'
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: null,
-    token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getItem('token'),
-    testAnalysis: null
-  }),
+  state: () => {
+    const storedUser = localStorage.getItem('user')
+    return {
+      user: storedUser ? JSON.parse(storedUser) : null,
+      token: localStorage.getItem('token') || null,
+      isAuthenticated: !!localStorage.getItem('token'),
+      testAnalysis: null
+    }
+  },
 
   actions: {
     async login(email, password) {
@@ -52,6 +55,7 @@ export const useAuthStore = defineStore('auth', {
         try {
           const response = await authService.getMe()
           this.user = response
+          localStorage.setItem('user', JSON.stringify(response))
           return true
         } catch (error) {
           this.logout()
