@@ -171,6 +171,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useTestStore } from '@/stores/test'
+import { surveyService } from '@/services/api'
 
 export default {
   name: 'TestBlock5',
@@ -238,24 +239,13 @@ export default {
         })
 
         // Отправляем все результаты на сервер
-        const response = await fetch('http://localhost:3000/api/test/save-results', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authStore.token}`
-          },
-          body: JSON.stringify({
-            block1: allResults.block1,
-            block2: allResults.block2,
-            block3: allResults.block3,
-            block4: allResults.block4,
-            block5: allResults.block5
-          })
+        await surveyService.saveTestResults({
+          block1: allResults.block1,
+          block2: allResults.block2,
+          block3: allResults.block3,
+          block4: allResults.block4,
+          block5: allResults.block5
         })
-
-        if (!response.ok) {
-          throw new Error('Ошибка при сохранении результатов')
-        }
 
         // Очищаем store после успешной отправки
         testStore.clearResults()

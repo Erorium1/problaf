@@ -63,6 +63,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import { surveyService } from '@/services/api';
 
 export default {
   name: 'TestResults',
@@ -85,18 +86,7 @@ export default {
         }
 
         console.log('Fetching results for user:', userId);
-        const response = await fetch(`http://localhost:3000/api/test/results/${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${authStore.token}`
-          }
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Не удалось загрузить результаты');
-        }
-
-        const data = await response.json();
+        const data = await surveyService.getTestResults(userId);
         console.log('Received results:', data);
         analysis.value = data.analysis;
       } catch (err) {

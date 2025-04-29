@@ -99,6 +99,16 @@ export const surveyService = {
     async getResults() {
         const response = await api.get('/api/survey/results');
         return response.data;
+    },
+
+    async saveTestResults(results) {
+        const response = await api.post('/api/test/save-results', results);
+        return response.data;
+    },
+
+    async getTestResults(userId) {
+        const response = await api.get(`/api/test/results/${userId}`);
+        return response.data;
     }
 };
 
