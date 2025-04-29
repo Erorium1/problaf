@@ -1,57 +1,80 @@
 <template>
   <div class="test-results">
-    <div class="back-button">
-      <router-link to="/test" class="btn-back">
-        <i class="fas fa-arrow-left"></i>
-      </router-link>
-    </div>
+    <nav class="navbar navbar-light">
+      <div class="container-fluid">
+        <router-link to="/test" class="btn-back">
+          <i class="fas fa-arrow-left"></i>
+        </router-link>
+        <div class="dropdown">
+          <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Настройки</a></li>
+            <li><a class="dropdown-item" @click="handleLogout">Выйти</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    <div class="results-container">
-      <h1>Результаты теста</h1>
+    <div class="container py-4">
+      <h1 class="text-center mb-4">Результаты теста</h1>
       
-      <div v-if="loading" class="loading">
-        Загрузка результатов...
+      <div v-if="loading" class="loading text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Загрузка...</span>
+        </div>
+        <p class="mt-2">Загрузка результатов...</p>
       </div>
 
-      <div v-else-if="error" class="error">
-        {{ error }}
+      <div v-else-if="error" class="error text-center">
+        <i class="fas fa-exclamation-circle text-danger mb-2" style="font-size: 2rem;"></i>
+        <p>{{ error }}</p>
       </div>
 
       <template v-else>
-        <div v-for="(result, category) in analysis" :key="category" class="result-block">
-          <h2>{{ category }}</h2>
-          
-          <div class="score-info">
-            <div class="score">
-              <span class="label">Баллы:</span>
-              <span class="value">{{ result.score }}</span>
+        <div class="row g-4">
+          <div v-for="(result, category) in analysis" :key="category" class="col-12">
+            <div class="result-card">
+              <div class="card-header">
+                <h2>{{ category }}</h2>
+              </div>
+              <div class="card-body">
+                <div class="score-info mb-3">
+                  <div class="score">
+                    <span class="label">Баллы:</span>
+                    <span class="value">{{ result.score }}</span>
+                  </div>
+                  <div class="level">
+                    <span class="label">Уровень:</span>
+                    <span class="value">{{ result.level }}</span>
+                  </div>
+                </div>
+
+                <div class="description mb-4">
+                  <p>{{ result.description }}</p>
+                </div>
+
+                <div v-if="result.professions && result.professions.length" class="professions mb-4">
+                  <h3>Подходящие профессии:</h3>
+                  <div class="professions-list">
+                    <span v-for="profession in result.professions" :key="profession" class="profession-tag">
+                      {{ profession }}
+                    </span>
+                  </div>
+                </div>
+
+                <div v-if="result.advice && result.advice.length" class="advice">
+                  <h3>Советы:</h3>
+                  <ul class="advice-list">
+                    <li v-for="(advice, index) in result.advice" :key="index">
+                      <i class="fas fa-check-circle"></i>
+                      {{ advice }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div class="level">
-              <span class="label">Уровень:</span>
-              <span class="value">{{ result.level }}</span>
-            </div>
-          </div>
-
-          <div class="description">
-            <p>{{ result.description }}</p>
-          </div>
-
-          <div v-if="result.professions && result.professions.length" class="professions">
-            <h3>Подходящие профессии:</h3>
-            <ul>
-              <li v-for="profession in result.professions" :key="profession">
-                {{ profession }}
-              </li>
-            </ul>
-          </div>
-
-          <div v-if="result.advice && result.advice.length" class="advice">
-            <h3>Советы:</h3>
-            <ul>
-              <li v-for="(advice, index) in result.advice" :key="index">
-                {{ advice }}
-              </li>
-            </ul>
           </div>
         </div>
       </template>
@@ -125,14 +148,11 @@ export default {
 <style scoped>
 .test-results {
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 2rem;
+  background-color: #ffffff;
 }
 
-.back-button {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
+.navbar {
+  padding: 1rem;
 }
 
 .btn-back {
@@ -152,39 +172,37 @@ export default {
 
 .btn-back:hover {
   background-color: #7a8595;
+  color: white;
 }
 
-.results-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.result-card {
+  background-color: #98a3b3;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 2rem;
-}
-
-.result-block {
-  margin-bottom: 2rem;
+.card-header {
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
 }
 
-h2 {
-  color: #98a3b3;
-  margin-bottom: 1rem;
+.card-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
 }
 
 .score-info {
   display: flex;
   gap: 2rem;
-  margin-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
 }
 
 .score, .level {
@@ -194,50 +212,78 @@ h2 {
 
 .label {
   font-size: 0.9rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .value {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
-}
-
-.description {
-  margin-bottom: 1.5rem;
+  color: white;
 }
 
 .description p {
+  color: white;
   line-height: 1.6;
-  color: #444;
+  margin: 0;
 }
 
-.professions, .advice {
-  margin-top: 1rem;
+.professions h3, .advice h3 {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-h3 {
-  color: #98a3b3;
-  margin-bottom: 0.5rem;
+.professions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0;
+.profession-tag {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
 }
 
-li {
+.advice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.advice-list li {
+  color: white;
   padding: 0.5rem 0;
-  color: #444;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.advice-list li i {
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0.2rem;
 }
 
 .loading, .error {
-  text-align: center;
   padding: 2rem;
-  color: #666;
+  color: #98a3b3;
 }
 
 .error {
   color: #dc3545;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .score-info {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 </style> 

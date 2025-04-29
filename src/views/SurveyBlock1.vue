@@ -14,35 +14,77 @@
           <div class="question-block">
             <div class="question-title">Какой рабочий график вам больше всего подходит?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q1_1" value="9-18" v-model="answers.q1_1" />Я предпочитаю работать с 9 до 18.</label>
-              <label class="answer-item"><input type="radio" name="q1_1" value="flexible" v-model="answers.q1_1" />Гибкий график, главное — выполнить задачи.</label>
-              <label class="answer-item"><input type="radio" name="q1_1" value="evening" v-model="answers.q1_1" />Мне нравится работать по вечерам и ночам.</label>
+              <label class="answer-item">
+                <input type="radio" name="q1_1" value="9-18" v-model="answers.q1_1" />
+                <span>Я предпочитаю работать с 9 до 18.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_1" value="flexible" v-model="answers.q1_1" />
+                <span>Гибкий график, главное — выполнить задачи.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_1" value="evening" v-model="answers.q1_1" />
+                <span>Мне нравится работать по вечерам и ночам.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Что для вас важнее всего в профессии?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q1_2" value="income" v-model="answers.q1_2" />Высокий доход.</label>
-              <label class="answer-item"><input type="radio" name="q1_2" value="growth" v-model="answers.q1_2" />Возможность развиваться и учиться новому.</label>
-              <label class="answer-item"><input type="radio" name="q1_2" value="help" v-model="answers.q1_2" />Стремление помогать людям.</label>
-              <label class="answer-item"><input type="radio" name="q1_2" value="stability" v-model="answers.q1_2" />Стабильность и безопасность</label>
+              <label class="answer-item">
+                <input type="radio" name="q1_2" value="income" v-model="answers.q1_2" />
+                <span>Высокий доход.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_2" value="growth" v-model="answers.q1_2" />
+                <span>Возможность развиваться и учиться новому.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_2" value="help" v-model="answers.q1_2" />
+                <span>Стремление помогать людям.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_2" value="stability" v-model="answers.q1_2" />
+                <span>Стабильность и безопасность</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Какую роль вам хочется играть в коллективе?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q1_3" value="leader" v-model="answers.q1_3" />Лидер, который принимает решения.</label>
-              <label class="answer-item"><input type="radio" name="q1_3" value="specialist" v-model="answers.q1_3" />Специалист, который фокусируется на задачах.</label>
-              <label class="answer-item"><input type="radio" name="q1_3" value="support" v-model="answers.q1_3" />Поддержка для коллег, создатель хорошей атмосферы.</label>
+              <label class="answer-item">
+                <input type="radio" name="q1_3" value="leader" v-model="answers.q1_3" />
+                <span>Лидер, который принимает решения.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_3" value="specialist" v-model="answers.q1_3" />
+                <span>Специалист, который фокусируется на задачах.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_3" value="support" v-model="answers.q1_3" />
+                <span>Поддержка для коллег, создатель хорошей атмосферы.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Что вам ближе в работе?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q1_4" value="people" v-model="answers.q1_4" />Работа с людьми.</label>
-              <label class="answer-item"><input type="radio" name="q1_4" value="tech" v-model="answers.q1_4" />Работа с техникой и технологиями.</label>
-              <label class="answer-item"><input type="radio" name="q1_4" value="data" v-model="answers.q1_4" />Работа с данными, анализом и цифрами.</label>
-              <label class="answer-item"><input type="radio" name="q1_4" value="creative" v-model="answers.q1_4" />Творчество и создание нового.</label>
+              <label class="answer-item">
+                <input type="radio" name="q1_4" value="people" v-model="answers.q1_4" />
+                <span>Работа с людьми.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_4" value="tech" v-model="answers.q1_4" />
+                <span>Работа с техникой и технологиями.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_4" value="data" v-model="answers.q1_4" />
+                <span>Работа с данными, анализом и цифрами.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q1_4" value="creative" v-model="answers.q1_4" />
+                <span>Творчество и создание нового.</span>
+              </label>
             </div>
           </div>
         </div>

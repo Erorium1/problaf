@@ -14,33 +14,69 @@
           <div class="question-block">
             <div class="question-title">Как вы обычно ведёте себя в стрессовых ситуациях?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q3_1" value="calm" v-model="answers.q3_1" />Остаюсь спокойным, анализирую ситуацию.</label>
-              <label class="answer-item"><input type="radio" name="q3_1" value="fast" v-model="answers.q3_1" />Стараюсь быстро найти решение и действую.</label>
-              <label class="answer-item"><input type="radio" name="q3_1" value="positive" v-model="answers.q3_1" />Я чувствую стресс, но стараюсь поддерживать позитивный настрой.</label>
+              <label class="answer-item">
+                <input type="radio" name="q3_1" value="calm" v-model="answers.q3_1" />
+                <span>Остаюсь спокойным, анализирую ситуацию.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_1" value="fast" v-model="answers.q3_1" />
+                <span>Стараюсь быстро найти решение и действую.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_1" value="positive" v-model="answers.q3_1" />
+                <span>Я чувствую стресс, но стараюсь поддерживать позитивный настрой.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Вы предпочитаете работу:</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q3_2" value="predictable" v-model="answers.q3_2" />С предсказуемыми задачами, где не нужно много импровизировать.</label>
-              <label class="answer-item"><input type="radio" name="q3_2" value="decisions" v-model="answers.q3_2" />С возможностью принятия решений и самостоятельной работы.</label>
-              <label class="answer-item"><input type="radio" name="q3_2" value="changes" v-model="answers.q3_2" />С частыми изменениями и новыми вызовами.</label>
+              <label class="answer-item">
+                <input type="radio" name="q3_2" value="predictable" v-model="answers.q3_2" />
+                <span>С предсказуемыми задачами, где не нужно много импровизировать.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_2" value="decisions" v-model="answers.q3_2" />
+                <span>С возможностью принятия решений и самостоятельной работы.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_2" value="changes" v-model="answers.q3_2" />
+                <span>С частыми изменениями и новыми вызовами.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Что для вас важнее в общении с коллегами?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q3_3" value="friendly" v-model="answers.q3_3" />Дружелюбная атмосфера и поддержка.</label>
-              <label class="answer-item"><input type="radio" name="q3_3" value="clarity" v-model="answers.q3_3" />Ясность в коммуникации и чёткое выполнение задач.</label>
-              <label class="answer-item"><input type="radio" name="q3_3" value="ideas" v-model="answers.q3_3" />Возможность обмениваться идеями и обучать других.</label>
+              <label class="answer-item">
+                <input type="radio" name="q3_3" value="friendly" v-model="answers.q3_3" />
+                <span>Дружелюбная атмосфера и поддержка.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_3" value="clarity" v-model="answers.q3_3" />
+                <span>Ясность в коммуникации и чёткое выполнение задач.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_3" value="ideas" v-model="answers.q3_3" />
+                <span>Возможность обмениваться идеями и обучать других.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Как вы относитесь к рутинным задачам?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q3_4" value="like" v-model="answers.q3_4" />Мне нравится выполнять монотонную работу, если она нужна.</label>
-              <label class="answer-item"><input type="radio" name="q3_4" value="variety" v-model="answers.q3_4" />Я предпочитаю, чтобы работа была разнообразной.</label>
-              <label class="answer-item"><input type="radio" name="q3_4" value="notfor" v-model="answers.q3_4" />Рутинная работа не для меня, мне нужно что-то новое и интересное.</label>
+              <label class="answer-item">
+                <input type="radio" name="q3_4" value="like" v-model="answers.q3_4" />
+                <span>Мне нравится выполнять монотонную работу, если она нужна.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_4" value="variety" v-model="answers.q3_4" />
+                <span>Я предпочитаю, чтобы работа была разнообразной.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q3_4" value="notfor" v-model="answers.q3_4" />
+                <span>Рутинная работа не для меня, мне нужно что-то новое и интересное.</span>
+              </label>
             </div>
           </div>
         </div>

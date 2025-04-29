@@ -206,36 +206,17 @@ export default {
     const getStrengths = (type) => PROFILE_DETAILS[type]?.strengths || []
     const getMotivation = (type) => PROFILE_DETAILS[type]?.motivation || ''
 
-    onMounted(async () => {
+    onMounted(() => {
       try {
-        const savedResult = localStorage.getItem('profile_result')
-        if (!savedResult) {
-          error.value = 'Результаты теста не найдены. Пожалуйста, пройдите тест.'
-          return
+        const storedResult = localStorage.getItem('profile_result')
+        if (storedResult) {
+          const parsedResult = JSON.parse(storedResult)
+          profileResult.value = parsedResult
+          scores.value = parsedResult.scores || {}
         }
-
-        const result = JSON.parse(savedResult)
-        if (!result.type || !result.profile) {
-          error.value = 'Некорректные данные профиля'
-          return
-        }
-
-        profileResult.value = result
-        scores.value = result.scores || {}
-
-        // Собираем все ответы
-        const allAnswers = {}
-        for (let i = 1; i <= 5; i++) {
-          const blockAnswers = JSON.parse(localStorage.getItem(`survey_block${i}`) || '{}')
-          Object.assign(allAnswers, blockAnswers)
-        }
-
-        // Отправляем результаты через сервис
-        await surveyService.saveResults(result, allAnswers)
-
       } catch (err) {
-        console.error('Error:', err)
-        error.value = 'Произошла ошибка при загрузке результатов'
+        error.value = 'Ошибка при загрузке результатов'
+        console.error('Error loading profile:', err)
       } finally {
         loading.value = false
       }
@@ -259,7 +240,7 @@ export default {
 
 .profile-view {
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: #ffffff;
   padding: 2rem 0;
 }
 
@@ -274,77 +255,132 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   background-color: #98a3b3;
   color: white;
   border-radius: 50%;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .btn-back:hover {
   background-color: #7a8699;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .survey-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 .survey-content {
   background-color: white;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-top: 1rem;
 }
 
 .block-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .block-header h2 {
   color: #333;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.block-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #98a3b3;
+  border-radius: 3px;
 }
 
 .profile-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f2f5;
+}
+
+.profile-header h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
 }
 
 .profile-score {
   background-color: #98a3b3;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(152, 163, 179, 0.2);
 }
 
 .profile-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.profile-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .profile-section h4, .profile-section h5 {
   color: #333;
   margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.profile-section p {
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .professions-list, .strengths-list {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .professions-list li, .strengths-list li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+}
+
+.professions-list li:before, .strengths-list li:before {
+  content: '•';
+  color: #98a3b3;
+  font-weight: bold;
+  margin-right: 0.8rem;
 }
 
 .professions-list li:last-child, .strengths-list li:last-child {
@@ -353,47 +389,90 @@ export default {
 
 .hybrid-profile .profiles-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
 
 .hybrid-profile .profile-card {
-  background-color: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 15px;
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.hybrid-profile .profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .no-profile {
   text-align: center;
-  padding: 2rem;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 20px;
 }
 
 .nav-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   background-color: #98a3b3;
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(152, 163, 179, 0.2);
 }
 
 .nav-button:hover {
   background-color: #7a8699;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(152, 163, 179, 0.3);
 }
 
 .loading, .error {
   text-align: center;
-  padding: 2rem;
+  padding: 3rem;
+  background: #f8f9fa;
+  border-radius: 20px;
+}
+
+.loading p {
+  color: #4a5568;
+  font-size: 1.1rem;
 }
 
 .error {
   color: #dc3545;
+}
+
+.error p {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .survey-container {
+    padding: 0 1rem;
+  }
+
+  .survey-content {
+    padding: 1.5rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .hybrid-profile .profiles-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style> 

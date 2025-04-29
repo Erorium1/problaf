@@ -14,17 +14,86 @@
           <div class="question-block">
             <div class="question-title">Сколько времени вы готовы тратить на обучение и развитие в своей профессии?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q5_1" value="lifetime" v-model="answers.q5_1" />Я готов учиться всю жизнь, это важно для моей карьеры.</label>
-              <label class="answer-item"><input type="radio" name="q5_1" value="courses" v-model="answers.q5_1" />Я готов пройти несколько курсов и тренингов.</label>
-              <label class="answer-item"><input type="radio" name="q5_1" value="practice" v-model="answers.q5_1" />Мне важнее практическая работа, а не обучение.</label>
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="lifetime" v-model="answers.q5_1" />
+                <span>Я готов учиться всю жизнь, это важно для моей карьеры.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="courses" v-model="answers.q5_1" />
+                <span>Я готов пройти несколько курсов и тренингов.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="practice" v-model="answers.q5_1" />
+                <span>Мне важнее практическая работа, а не обучение.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Что вас больше привлекает в будущем?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q5_2" value="career" v-model="answers.q5_2" />Возможности карьерного роста.</label>
-              <label class="answer-item"><input type="radio" name="q5_2" value="business" v-model="answers.q5_2" />Возможности начать собственное дело.</label>
-              <label class="answer-item"><input type="radio" name="q5_2" value="calm" v-model="answers.q5_2" />Спокойная работа, где можно развивать свои навыки.</label>
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="career" v-model="answers.q5_2" />
+                <span>Возможности карьерного роста.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="business" v-model="answers.q5_2" />
+                <span>Возможности начать собственное дело.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="calm" v-model="answers.q5_2" />
+                <span>Спокойная работа, где можно развивать свои навыки.</span>
+              </label>
+            </div>
+          </div>
+          <div class="question-block">
+            <div class="question-title">Как вы относитесь к работе с большими объёмами информации?</div>
+            <div class="answer-list">
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="like" v-model="answers.q5_1" />
+                <span>Мне нравится анализировать и систематизировать информацию.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="prefer" v-model="answers.q5_1" />
+                <span>Я предпочитаю работать с конкретными задачами, а не с большими массивами данных.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_1" value="avoid" v-model="answers.q5_1" />
+                <span>Я стараюсь избегать работы с большими объёмами информации.</span>
+              </label>
+            </div>
+          </div>
+          <div class="question-block">
+            <div class="question-title">Как вы относитесь к публичным выступлениям?</div>
+            <div class="answer-list">
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="comfortable" v-model="answers.q5_2" />
+                <span>Мне комфортно выступать перед аудиторией.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="prepare" v-model="answers.q5_2" />
+                <span>Я могу выступать, если хорошо подготовлюсь.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_2" value="avoid" v-model="answers.q5_2" />
+                <span>Я предпочитаю избегать публичных выступлений.</span>
+              </label>
+            </div>
+          </div>
+          <div class="question-block">
+            <div class="question-title">Как вы относитесь к работе в условиях неопределённости?</div>
+            <div class="answer-list">
+              <label class="answer-item">
+                <input type="radio" name="q5_3" value="adapt" v-model="answers.q5_3" />
+                <span>Я легко адаптируюсь к изменениям и неопределённости.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_3" value="plan" v-model="answers.q5_3" />
+                <span>Я предпочитаю иметь чёткий план и стабильные условия.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q5_3" value="stress" v-model="answers.q5_3" />
+                <span>Неопределённость вызывает у меня стресс.</span>
+              </label>
             </div>
           </div>
         </div>
@@ -53,7 +122,7 @@ export default {
   setup() {
     const router = useRouter()
     const answers = ref({
-      q5_1: '', q5_2: ''
+      q5_1: '', q5_2: '', q5_3: ''
     })
 
     const handleNext = async () => {
@@ -73,19 +142,20 @@ export default {
         Object.assign(allAnswers, blockAnswers)
       }
 
-      // Анализируем профиль
-      const profileResult = analyzeProfile(allAnswers)
-
-      // Сохраняем результат
-      localStorage.setItem('profile_result', JSON.stringify(profileResult))
-
       try {
+        // Анализируем профиль
+        const profileResult = analyzeProfile(allAnswers)
+
+        // Сохраняем результат
+        localStorage.setItem('profile_result', JSON.stringify(profileResult))
+
         // Получаем информацию о пользователе
         const userData = JSON.parse(localStorage.getItem('user') || '{}')
 
         // Отправляем результаты через сервис
         await surveyService.saveResults(profileResult, allAnswers, userData)
-        alert('Спасибо за прохождение опроса!')
+        
+        // Перенаправляем на страницу профиля
         router.push('/profile')
       } catch (error) {
         console.error('Error saving results:', error)

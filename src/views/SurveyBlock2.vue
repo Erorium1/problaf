@@ -14,33 +14,69 @@
           <div class="question-block">
             <div class="question-title">Когда вам комфортнее работать?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q2_1" value="alone" v-model="answers.q2_1" />В одиночку, в тишине и сосредоточенности.</label>
-              <label class="answer-item"><input type="radio" name="q2_1" value="team" v-model="answers.q2_1" />В команде, обсуждая идеи и задачи.</label>
-              <label class="answer-item"><input type="radio" name="q2_1" value="group" v-model="answers.q2_1" />Мне нравится работать в коллективе, но без лишних разговоров.</label>
+              <label class="answer-item">
+                <input type="radio" name="q2_1" value="alone" v-model="answers.q2_1" />
+                <span>В одиночку, в тишине и сосредоточенности.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_1" value="team" v-model="answers.q2_1" />
+                <span>В команде, обсуждая идеи и задачи.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_1" value="group" v-model="answers.q2_1" />
+                <span>Мне нравится работать в коллективе, но без лишних разговоров.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Что вас мотивирует на работе?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q2_2" value="result" v-model="answers.q2_2" />Результат и успех.</label>
-              <label class="answer-item"><input type="radio" name="q2_2" value="recognition" v-model="answers.q2_2" />Признание со стороны коллег и руководства.</label>
-              <label class="answer-item"><input type="radio" name="q2_2" value="benefit" v-model="answers.q2_2" />Возможность приносить пользу людям и обществу.</label>
+              <label class="answer-item">
+                <input type="radio" name="q2_2" value="result" v-model="answers.q2_2" />
+                <span>Результат и успех.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_2" value="recognition" v-model="answers.q2_2" />
+                <span>Признание со стороны коллег и руководства.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_2" value="benefit" v-model="answers.q2_2" />
+                <span>Возможность приносить пользу людям и обществу.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Какую роль в жизни вы хотите занимать?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q2_3" value="expert" v-model="answers.q2_3" />Ведущий специалист в своей области.</label>
-              <label class="answer-item"><input type="radio" name="q2_3" value="organizer" v-model="answers.q2_3" />Организатор проектов, создатель.</label>
-              <label class="answer-item"><input type="radio" name="q2_3" value="helper" v-model="answers.q2_3" />Человек, который помогает и поддерживает других.</label>
+              <label class="answer-item">
+                <input type="radio" name="q2_3" value="expert" v-model="answers.q2_3" />
+                <span>Ведущий специалист в своей области.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_3" value="organizer" v-model="answers.q2_3" />
+                <span>Организатор проектов, создатель.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_3" value="helper" v-model="answers.q2_3" />
+                <span>Человек, который помогает и поддерживает других.</span>
+              </label>
             </div>
           </div>
           <div class="question-block">
             <div class="question-title">Как вы относитесь к поездкам и командировкам в работе?</div>
             <div class="answer-list">
-              <label class="answer-item"><input type="radio" name="q2_4" value="oneplace" v-model="answers.q2_4" />Я предпочитаю работать на одном месте.</label>
-              <label class="answer-item"><input type="radio" name="q2_4" value="travel" v-model="answers.q2_4" />Мне нравятся командировки, особенно за границу.</label>
-              <label class="answer-item"><input type="radio" name="q2_4" value="ready" v-model="answers.q2_4" />Я готов к командировкам, если это необходимо для работы.</label>
+              <label class="answer-item">
+                <input type="radio" name="q2_4" value="oneplace" v-model="answers.q2_4" />
+                <span>Я предпочитаю работать на одном месте.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_4" value="travel" v-model="answers.q2_4" />
+                <span>Мне нравятся командировки, особенно за границу.</span>
+              </label>
+              <label class="answer-item">
+                <input type="radio" name="q2_4" value="ready" v-model="answers.q2_4" />
+                <span>Я готов к командировкам, если это необходимо для работы.</span>
+              </label>
             </div>
           </div>
         </div>
