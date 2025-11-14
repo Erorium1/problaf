@@ -1,46 +1,134 @@
 import axios from 'axios';
+import { auth, db } from '@/firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 const api = axios.create({
-    baseURL: 'https://easycar.kz:3000/',
-    headers: {
-        'Content-Type': 'application/json'
-    }
+  baseURL: 'https://easycar.kz:3000/',
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
-// Добавляем interceptor для автоматической вставки токена
+// Добавляем interceptor для автоматической вставки токена (пока оставим для остальных API)
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export const authService = {
-    async login(email, password) {
-        const response = await api.post('/api/auth/login', { email, password });
-        if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
-        }
-        return response.data;
-    },
+  // ЛОГИН через Firebase Auth
+  async login(email, password) {
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const user = cred.user;
+    const idToken = await user.getIdToken();
 
-    async register(name, email, password) {
-        const response = await api.post('api/auth/register', { name, email, password });
-        if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
-        }
-        return response.data;
-    },
-
-    async getMe() {
-        const response = await api.get('/auth/me');
-        return response.data;
-    },
-
-    logout() {
-        localStorage.removeItem('token');
+    // Пытаемся вытащить доп. данные из Firestore (name, role)
+    let profile = { name: user.displayName || '', role: 'user' };
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        profile = {
+          name: data.name || profile.name,
+          role: data.role || profile.role
+        };
+      }
+    } catch (e) {
+      // игнорируем, если нет профиля
     }
+
+    const response = {
+      user: {
+        id: user.uid,
+        name: profile.name,
+        email: user.email,
+        role: profile.role
+      },
+      token: idToken
+    };
+
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+
+    return response;
+  },
+
+  // РЕГИСТРАЦИЯ через Firebase Auth
+  async register(name, email, password) {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    const user = cred.user;
+    const idToken = await user.getIdToken();
+
+    const response = {
+      user: {
+        id: user.uid,
+        name,
+        email: user.email,
+        role: 'user'
+      },
+      token: idToken
+    };
+
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(response.user));
+
+    return response;
+  },
+
+  // Получение текущего пользователя из Firebase
+  async getMe() {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(
+        auth,
+        async (user) => {
+          unsubscribe();
+          if (!user) {
+            return resolve(null);
+          }
+
+          let profile = { name: user.displayName || '', role: 'user' };
+          try {
+            const snap = await getDoc(doc(db, 'users', user.uid));
+            if (snap.exists()) {
+              const data = snap.data();
+              profile = {
+                name: data.name || profile.name,
+                role: data.role || profile.role
+              };
+            }
+          } catch (e) {
+            // ignore
+          }
+
+          resolve({
+            id: user.uid,
+            name: profile.name,
+            email: user.email,
+            role: profile.role
+          });
+        },
+        (error) => {
+          unsubscribe();
+          reject(error);
+        }
+      );
+    });
+  },
+
+  async logout() {
+    await signOut(auth);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
 };
 
 // Сервис для работы с Gemini API

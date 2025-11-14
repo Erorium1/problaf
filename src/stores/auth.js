@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { authService } from '@/services/api'
+import { db } from '@/firebase'
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
 
 export const useAuthStore = defineStore('auth', {
   state: () => {
@@ -27,6 +29,8 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await authService.register(name, email, password)
         this.setAuth(response)
+        // Создаём/обновляем документ пользователя в Firestore (коллекция создастся автоматически)
+        await this.syncUserToFirestore(response.user)
         return response
       } catch (error) {
         throw error
@@ -56,6 +60,8 @@ export const useAuthStore = defineStore('auth', {
           const response = await authService.getMe()
           this.user = response
           localStorage.setItem('user', JSON.stringify(response))
+          // На всякий случай синхронизируем профиль с Firestore
+          await this.syncUserToFirestore(response)
           return true
         } catch (error) {
           this.logout()
@@ -63,6 +69,30 @@ export const useAuthStore = defineStore('auth', {
         }
       }
       return false
+    },
+
+    async syncUserToFirestore(user) {
+      try {
+        if (!user || (!user.id && !user._id)) {
+          return
+        }
+        const userId = String(user.id || user._id)
+
+        await setDoc(
+          doc(db, 'users', userId),
+          {
+            name: user.name || '',
+            email: user.email || '',
+            role: user.role || 'user',
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          },
+          { merge: true }
+        )
+      } catch (error) {
+        // Не ломаем регистрацию, если Firestore недоступен
+        console.error('Failed to sync user to Firestore:', error)
+      }
     },
 
     setTestAnalysis(analysis) {
