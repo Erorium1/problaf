@@ -161,20 +161,78 @@ export const geminiService = {
     }
 };
 
-// Сервис для работы с чатами
+// Локальный сервис для работы с чатами (без запроса на бэкенд)
+const LOCAL_CHAT_KEY = 'ai_chats';
+
+function loadLocalChats() {
+  try {
+    const raw = localStorage.getItem(LOCAL_CHAT_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalChats(chats) {
+  try {
+    localStorage.setItem(LOCAL_CHAT_KEY, JSON.stringify(chats));
+  } catch {
+    // ignore
+  }
+}
+
 export const gptService = {
-    async saveChat(message, response) {
-        const result = await api.post('api/gpt/chat', { message, response });
-        return result.data;
-    },
-    getUserChats: async () => {
-        const response = await api.get('api/gpt/chats');
-        return response.data;
-    },
-    getChatMessages: async (chatId) => {
-        const response = await api.get(`/gpt/chats/${chatId}/messages`);
-        return response.data;
+  async saveChat(message, response, chatId = null) {
+    const now = new Date().toISOString();
+    let chats = loadLocalChats();
+
+    // Находим текущий чат или создаём новый
+    let chat = chats.find((c) => c.id === chatId);
+    if (!chat) {
+      chat = {
+        id: chatId || `chat_${Date.now()}`,
+        messages: [],
+        lastMessage: null,
+        messageCount: 0,
+        updatedAt: now,
+      };
+      chats.push(chat);
     }
+
+    // Добавляем сообщения
+    const userMessage = {
+      type: 'user',
+      text: message,
+      timestamp: now,
+    };
+    const aiMessage = {
+      type: 'ai',
+      text: response,
+      timestamp: now,
+    };
+
+    chat.messages.push(userMessage, aiMessage);
+    chat.lastMessage = { message, response, createdAt: now };
+    chat.messageCount = chat.messages.length;
+    chat.updatedAt = now;
+
+    saveLocalChats(chats);
+
+    return { chatId: chat.id };
+  },
+
+  async getUserChats() {
+    const chats = loadLocalChats();
+    return { chats };
+  },
+
+  async getChatMessages(chatId) {
+    const chats = loadLocalChats();
+    const chat = chats.find((c) => c.id === chatId);
+    return {
+      messages: chat ? chat.messages : [],
+    };
+  },
 };
 
 // Сервис для работы с результатами опроса

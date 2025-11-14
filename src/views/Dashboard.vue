@@ -1,10 +1,16 @@
 <template>
   <div class="dashboard">
     <nav class="navbar navbar-light">
-      <div class="container-fluid">
-        <button class="navbar-toggler border-0" type="button" @click="toggleSidebar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <div class="container-fluid justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <button class="navbar-toggler border-0" type="button" @click="toggleSidebar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="welcome-text">
+            <div class="welcome-title">Привет, {{ user?.name || 'друг' }} 👋</div>
+            <div class="welcome-subtitle">Давай продолжим твой путь профориентации</div>
+          </div>
+        </div>
         <div class="dropdown">
           <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown">
             <i class="fas fa-ellipsis-v"></i>
@@ -72,7 +78,7 @@
               <img class="img-fluid" src="../assets/iconlupa.png" alt="">
             </div>
             <h3 class="text-white mb-2">ИИ-помощник</h3>
-            <p class="text-white-50 mb-0">Нажмите, чтобы задать вопрос ИИ!</p>
+            <p class="text-white-50 mb-0">Задай вопрос и получи подсказку по учебе и карьере</p>
           </div>
         </div>
       </router-link>
@@ -166,15 +172,34 @@ export default {
 <style scoped>
 .dashboard {
   min-height: 100vh;
-  background-color: #ffffff;
+  background: radial-gradient(circle at top, #e0e7ff 0, #f9fafb 55%, #ffffff 100%);
 }
 
 .navbar {
   padding: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to right, rgba(249, 250, 251, 0.9), rgba(239, 246, 255, 0.9));
 }
 
 .navbar-toggler:focus {
   box-shadow: none;
+}
+
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.welcome-subtitle {
+  font-size: 0.85rem;
+  color: #6b7280;
 }
 
 .ai-assistant-card {
@@ -182,10 +207,30 @@ export default {
   border-radius: 20px;
   padding: 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ai-assistant-card::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ai-assistant-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
+}
+
+.ai-assistant-card:hover::before {
+  opacity: 1;
 }
 
 .card-content {
@@ -215,13 +260,32 @@ export default {
   background-color: #98a3b3;
   border-radius: 15px;
   height: 100%;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
 .feature-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #a5b4fc, #38bdf8, #22c55e);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.feature-card:hover::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .feature-card .card-body {

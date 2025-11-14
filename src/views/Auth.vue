@@ -43,7 +43,11 @@
               {{ loginError }}
             </div>
             <button type="submit" class="auth-button w-100" :disabled="isLoading">
-              {{ isLoading ? 'Загрузка...' : 'Войти' }}
+              <span v-if="!isLoading">Войти</span>
+              <span v-else class="btn-loading">
+                <span class="spinner"></span>
+                Загрузка...
+              </span>
             </button>
             <button @click="showLogin = false" class="back-button">
               Вернуться назад
@@ -82,7 +86,11 @@
               {{ registrationError }}
             </div>
             <button type="submit" class="auth-button w-100" :disabled="isLoading">
-              {{ isLoading ? 'Загрузка...' : 'Зарегистрироваться' }}
+              <span v-if="!isLoading">Зарегистрироваться</span>
+              <span v-else class="btn-loading">
+                <span class="spinner"></span>
+                Загрузка...
+              </span>
             </button>
             <button @click="showRegistration = false" class="back-button">
               Вернуться назад
@@ -224,6 +232,9 @@ export default {
   margin: 0 auto;
   padding: 20px;
   transition: all 0.3s ease;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 .auth-button {
@@ -232,16 +243,17 @@ export default {
   margin-bottom: 15px;
   border: none;
   border-radius: 25px;
-  background-color: #98a3b3;
+  background: linear-gradient(135deg, #8ea2ff, #4f46e5);
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
 }
 
 .auth-button:hover {
-  background-color: #7a8699;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.45);
 }
 
 .auth-button:disabled {
@@ -260,18 +272,41 @@ export default {
   width: 100%;
   padding: 15px;
   margin-bottom: 15px;
-  border: 2px solid #98a3b3;
+  border: 2px solid #e2e8f0;
   border-radius: 25px;
-  background-color: #98a3b3;
-  color: white;
+  background-color: #f8fafc;
+  color: #1f2933;
   font-size: 16px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .auth-input:focus {
   outline: none;
-  border-color: #7a8699;
-  transform: translateY(-2px);
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+  transform: translateY(-1px);
+}
+
+.btn-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #ffffff;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {

@@ -80,10 +80,22 @@
       </div>
 
       <div class="chat-messages" v-if="showChat">
-        <div v-for="(message, index) in currentChatMessages" :key="index"
-             :class="['message', message.type === 'user' ? 'user-message' : 'ai-message']">
+        <div
+          v-for="(message, index) in currentChatMessages"
+          :key="index"
+          :class="['message', message.type === 'user' ? 'user-message' : 'ai-message']"
+        >
           <div class="message-content">
             {{ message.text }}
+          </div>
+        </div>
+
+        <!-- Прелоадер в виде печатающего ИИ -->
+        <div v-if="isLoading" class="message ai-message typing-indicator">
+          <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
       </div>
@@ -113,10 +125,7 @@
         </div>
       </div>
 
-      <!-- Добавим индикатор загрузки и сообщения об ошибках -->
-      <div v-if="isLoading" class="loading-indicator">
-        Отправка сообщения...
-      </div>
+      <!-- Сообщения об ошибках -->
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
@@ -209,10 +218,9 @@ export default {
         // Сначала отправляем сообщение в Gemini API
         const aiResponse = await geminiService.sendMessage(userMessage)
         
-        // Затем сохраняем сообщение и ответ в нашем бэкенде
-        const response = await gptService.saveChat(userMessage, aiResponse)
-        
-        // Устанавливаем ID чата
+        // Затем сохраняем сообщение и ответ локально (в localStorage), без запроса на бэкенд
+        const response = await gptService.saveChat(userMessage, aiResponse, selectedChatId.value)
+        // Устанавливаем/обновляем ID чата
         selectedChatId.value = response.chatId
         
         // Добавляем сообщения в текущий чат
@@ -265,20 +273,21 @@ export default {
 <style scoped>
 .ai-assistant {
   min-height: 100vh;
-  background-color: #98a3b3;
+  background: radial-gradient(circle at top, #e0f2fe 0, #eef2ff 45%, #f9fafb 100%);
   position: relative;
   overflow: hidden;
 }
 
 .navbar {
   padding: 1rem;
-  background-color: #98a3b3;
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.92), rgba(30, 64, 175, 0.9));
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
 }
 
 .navbar-brand {
   font-size: 1.25rem;
   margin-bottom: 0;
-  color: white;
+  color: #f9fafb;
 }
 
 /* Стили для новой кнопки сайдбара */
@@ -342,7 +351,16 @@ export default {
 }
 
 .ai-content {
-  color: white;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
+.ai-content h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .ai-icon {
@@ -359,22 +377,21 @@ export default {
 }
 
 .action-button {
-  background-color: white;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
   border: none;
   border-radius: 15px;
   padding: 1rem;
-  color: #98a3b3;
+  color: #f9fafb;
   text-align: center;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   cursor: pointer;
   line-height: 1.3;
 }
 
 .action-button:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 14px 30px rgba(59, 130, 246, 0.35);
 }
 
 .input-container {
@@ -469,13 +486,13 @@ export default {
 }
 
 .search-input-wrapper {
-  background-color: white;
-  border-radius: 25px;
+  background-color: #0f172a;
+  border-radius: 999px;
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
   position: relative;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
 }
 
 .search-input {
@@ -483,7 +500,7 @@ export default {
   background: transparent;
   padding: 0.5rem;
   font-size: 1rem;
-  color: #333;
+  color: #e5e7eb;
   flex: 1;
   padding-right: 100px;
 }
@@ -504,7 +521,7 @@ export default {
   background: none;
   border: none;
   padding: 0.5rem;
-  color: #98a3b3;
+  color: #9ca3af;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -550,15 +567,15 @@ export default {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 100px;
+  margin-bottom: 110px;
 }
 
 .message {
-  max-width: 80%;
+  max-width: 82%;
   padding: 1rem;
   border-radius: 1rem;
   animation: fadeIn 0.3s ease;
@@ -566,17 +583,58 @@ export default {
 
 .user-message {
   align-self: flex-end;
-  background-color: white;
-  color: #98a3b3;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: #f9fafb;
   border-bottom-right-radius: 0.25rem;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
 }
 
 .ai-message {
   align-self: flex-start;
-  background-color: white;
-  color: #333;
+  background-color: #ffffff;
+  color: #111827;
   border-bottom-left-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+}
+
+.typing-indicator .dots {
+  display: flex;
+  gap: 4px;
+}
+
+.typing-indicator .dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background-color: #6b7280;
+  animation: blink 1s infinite ease-in-out;
+}
+
+.typing-indicator .dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator .dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
 }
 
 @keyframes fadeIn {
